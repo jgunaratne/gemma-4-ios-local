@@ -115,6 +115,48 @@ class GeminiAPIService {
       }
     }
   }
+
+  /// One-shot (non-streaming) generation. Used for utility tasks like character profile generation.
+  static func generateContent(
+    apiKey: String,
+    prompt: String,
+    modelId: String = "gemini-3.5-flash"
+  ) async throws -> String {
+    let urlString = "\(baseURL)/\(modelId):generateContent?key=\(apiKey)"
+    guard let url = URL(string: urlString) else {
+      throw GeminiAPIError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.timeoutInterval = 30
+
+    let body: [String: Any] = [
+      "contents": [
+        ["role": "user", "parts": [["text": prompt]]]
+      ]
+    ]
+    request.httpBody = try JSONSerialization.data(withJSONObject: body)
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+    if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
+      let errorBody = String(data: data, encoding: .utf8) ?? "unknown"
+      throw GeminiAPIError.httpError(statusCode: httpResponse.statusCode, message: errorBody)
+    }
+
+    guard let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+      let candidates = json["candidates"] as? [[String: Any]],
+      let first = candidates.first,
+      let content = first["content"] as? [String: Any],
+      let parts = content["parts"] as? [[String: Any]],
+      let text = parts.first?["text"] as? String
+    else {
+      throw GeminiAPIError.invalidResponse
+    }
+
+    return text
+  }
 }
 
 // MARK: - Errors

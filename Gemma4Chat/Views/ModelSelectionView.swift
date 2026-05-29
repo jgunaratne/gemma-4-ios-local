@@ -54,7 +54,7 @@ enum ModelOption: Hashable, Identifiable {
 struct ModelSelectionView: View {
   @Bindable var downloader: ModelDownloader
   let isInitializing: Bool
-  let onStartChat: (ModelOption, String) -> Void
+  let onStartChat: (ModelOption, String, String) -> Void
   let onCreateQuiz: (ModelOption) -> Void
 
   @AppStorage("geminiAPIKey") private var geminiAPIKey: String = ""
@@ -62,6 +62,8 @@ struct ModelSelectionView: View {
   @State private var isAPIKeyVisible: Bool = false
   @State private var selectedOption: ModelOption = .local(.gemma4_e4b)
   @AppStorage("contextText") private var contextText: String = ""
+  @AppStorage("characterText") private var characterText: String = ""
+  @State private var isGeneratingCharacter = false
 
   /// All model options: on-device models + Gemini cloud.
   private var allOptions: [ModelOption] {
@@ -469,7 +471,7 @@ struct ModelSelectionView: View {
         if selectedOption.isCloud, editingAPIKey != geminiAPIKey {
           geminiAPIKey = editingAPIKey
         }
-        onStartChat(selectedOption, contextText)
+        onStartChat(selectedOption, contextText, characterText)
       } label: {
         HStack {
           Image(systemName: selectedOption.isLive ? "waveform" : "message.fill")
@@ -527,6 +529,9 @@ struct ModelSelectionView: View {
 
       // Context input
       contextSection
+
+      // Character narrator
+      characterSection
 
       // Delete button (only for downloaded local models)
       if case .local(let model) = selectedOption, downloader.status(for: model).isDownloaded {
@@ -610,6 +615,140 @@ struct ModelSelectionView: View {
       RoundedRectangle(cornerRadius: 16)
         .fill(Color(.secondarySystemBackground))
     )
+  }
+
+  // MARK: - Character Section
+
+  private var characterSection: some View {
+    VStack(alignment: .leading, spacing: 10) {
+      HStack {
+        Image(systemName: "person.text.rectangle.fill")
+          .font(.system(size: 14))
+          .foregroundStyle(Color(hex: "9B72CB"))
+        Text("Character Narrator")
+          .font(.system(size: 14, weight: .semibold))
+          .foregroundStyle(.primary)
+        Spacer()
+        if !characterText.isEmpty {
+          Button {
+            characterText = ""
+          } label: {
+            Text("Clear")
+              .font(.system(size: 12, weight: .medium))
+              .foregroundStyle(.red)
+          }
+        }
+      }
+
+      Text("Specify a persona/character who should be reading your context and what they should sound like (e.g., a crisp British reporter, a mysterious ancient wizard, a cheerful tech podcaster).")
+        .font(.system(size: 12))
+        .foregroundStyle(.secondary)
+
+      TextEditor(text: $characterText)
+        .font(.system(size: 14))
+        .scrollContentBackground(.hidden)
+        .frame(minHeight: 80, maxHeight: 120)
+        .padding(10)
+        .background(
+          RoundedRectangle(cornerRadius: 12)
+            .fill(Color(.secondarySystemBackground))
+        )
+        .overlay(
+          Group {
+            if characterText.isEmpty {
+              Text("Describe the character or tap 'Generate' below…")
+                .font(.system(size: 14))
+                .foregroundStyle(.quaternary)
+                .padding(.leading, 14)
+                .padding(.top, 18)
+            }
+          },
+          alignment: .topLeading
+        )
+
+      // Generate Button
+      Button {
+        generateCharacterNarrator()
+      } label: {
+        HStack {
+          if isGeneratingCharacter {
+            ProgressView()
+              .tint(.white)
+              .padding(.trailing, 4)
+            Text("Generating Persona…")
+          } else {
+            Image(systemName: "sparkles")
+            Text("Generate Character Narrator")
+          }
+        }
+        .font(.system(size: 13, weight: .semibold))
+        .foregroundStyle(.white)
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 10)
+        .background(
+          LinearGradient(
+            colors: canGenerateCharacter
+              ? [Color(hex: "9B72CB"), Color(hex: "D96570")]
+              : [Color(.systemGray4), Color(.systemGray4)],
+            startPoint: .leading,
+            endPoint: .trailing
+          )
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+      }
+      .disabled(!canGenerateCharacter || isGeneratingCharacter)
+    }
+    .padding(16)
+    .background(
+      RoundedRectangle(cornerRadius: 16)
+        .fill(Color(.secondarySystemBackground))
+    )
+  }
+
+  private var canGenerateCharacter: Bool {
+    !contextText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
+    !editingAPIKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+  }
+
+  private func generateCharacterNarrator() {
+    let key = editingAPIKey.trimmingCharacters(in: .whitespacesAndNewlines)
+    let context = contextText.trimmingCharacters(in: .whitespacesAndNewlines)
+    
+    guard !key.isEmpty, !context.isEmpty else { return }
+    
+    isGeneratingCharacter = true
+    
+    let prompt = """
+    You are a world-class director, creative writer, and casting agent.
+    Your job is to analyze the provided content/transcript and design a highly compelling, specific voice character/narrator who is perfect for reading, presenting, or having a live conversation about this text.
+
+    Task:
+    1. Analyze the theme, tone, and subject matter of the content below.
+    2. Invent a specific character persona to read this text.
+    3. Write a detailed, concise 1-2 paragraph character description. Include details like their profession, age, gender/accent (e.g., crisp male British reporter, warm motherly therapist, energetic tech-bro, stoic ancient wizard), emotional tone, speech pacing, vocabulary style (e.g., uses formal wording, uses friendly contractions, speaks with high-pitched robotic energy), and specific guidelines for how they should speak (e.g., "Keep responses short, clear, and highly enthusiastic").
+
+    Content:
+    \"\"\"
+    \(context)
+    \"\"\"
+
+    Output only the resulting 1-2 paragraph character description. Do not include headers, bullet points, or introductory text. Keep it extremely focused on the persona and speech style guidelines.
+    """
+    
+    Task {
+      do {
+        let response = try await GeminiAPIService.generateContent(apiKey: key, prompt: prompt)
+        await MainActor.run {
+          self.characterText = response.trimmingCharacters(in: .whitespacesAndNewlines)
+          self.isGeneratingCharacter = false
+        }
+      } catch {
+        print("❌ [ModelSelection] Failed to generate character narrator: \(error.localizedDescription)")
+        await MainActor.run {
+          self.isGeneratingCharacter = false
+        }
+      }
+    }
   }
 
   // MARK: - Helpers

@@ -20,10 +20,20 @@ class GeminiChatViewModel {
   /// Streaming buffer for batching UI updates.
   private static let streamingBufferTimeSeconds = 0.10
 
-  init(apiKey: String, modelId: String = "gemini-3.5-flash", context: String = "") {
-    let systemInstruction = context.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-      ? nil
-      : "The user has provided the following context for this conversation. Use it to inform your responses:\n\n\(context)"
+  init(apiKey: String, modelId: String = "gemini-3.5-flash", context: String = "", character: String = "") {
+    var instructions: [String] = []
+    
+    let trimmedChar = character.trimmingCharacters(in: .whitespacesAndNewlines)
+    if !trimmedChar.isEmpty {
+      instructions.append("Adopt the following persona/character for this entire conversation:\n\(trimmedChar)")
+    }
+    
+    let trimmedContext = context.trimmingCharacters(in: .whitespacesAndNewlines)
+    if !trimmedContext.isEmpty {
+      instructions.append("Use the following user-provided context to inform your responses:\n\(trimmedContext)")
+    }
+    
+    let systemInstruction = instructions.isEmpty ? nil : instructions.joined(separator: "\n\n")
     self.apiService = GeminiAPIService(apiKey: apiKey, modelId: modelId, systemInstruction: systemInstruction)
   }
 

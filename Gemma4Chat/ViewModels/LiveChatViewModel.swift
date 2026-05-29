@@ -32,8 +32,20 @@ final class LiveChatViewModel {
 
   // MARK: - Init
 
-  init(apiKey: String, context: String = "") {
+  init(apiKey: String, context: String = "", character: String = "") {
     self.apiKey = apiKey
+
+    let trimmedChar = character.trimmingCharacters(in: .whitespacesAndNewlines)
+    if !trimmedChar.isEmpty {
+      // Override default friendly assistant instruction with the customized persona
+      session.systemInstruction = """
+      Adopt the following persona/character profile for this entire live voice conversation:
+      \(trimmedChar)
+
+      Keep responses natural, conversational, concise, and fully in-character.
+      You are speaking with the user in real-time via voice.
+      """
+    }
 
     // Append user-provided context to the session's system instruction
     let trimmedContext = context.trimmingCharacters(in: .whitespacesAndNewlines)

@@ -91,7 +91,7 @@
 		9C877B4F4C4DADFAF75D6207 /* Benchmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Benchmark.swift; sourceTree = "<group>"; };
 		9D789FF3FDDD023CDC2D33B7 /* QuizQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizQuestion.swift; sourceTree = "<group>"; };
 		9FCFE9093E91199A7FE8B2A6 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
-		A0289FC793958CA2D294729F /* Gemma4Chat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gemma4Chat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A0289FC793958CA2D294729F /* Gemma4Chat.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Gemma4Chat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5E86B5545DA8AE4FD216AEF /* AudioVisualizerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioVisualizerView.swift; sourceTree = "<group>"; };
 		A6E31C528149239E252FECB2 /* CLiteRTLM.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CLiteRTLM.xcframework; path = Frameworks/CLiteRTLM.xcframework; sourceTree = "<group>"; };
 		BB2C6D55CFE1B01EF045C191 /* InferenceStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InferenceStats.swift; sourceTree = "<group>"; };
@@ -276,6 +276,11 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					6A965781CBD56F9C9E65F6A8 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 851C7CF4C6C474EAF53E865F /* Build configuration list for PBXProject "Gemma4Chat" */;
 			developmentRegion = en;
@@ -419,10 +424,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = EQHXZ8M8AV;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"Frameworks\"",
@@ -442,9 +445,7 @@
 					"-all_load",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.gunaratne.Gemma4Chat;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Google Development";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jgunaratne.Gemma4Chat;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 5.0;
@@ -457,10 +458,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = EQHXZ8M8AV;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"Frameworks\"",
@@ -480,9 +479,7 @@
 					"-all_load",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.gunaratne.Gemma4Chat;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Google Development";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jgunaratne.Gemma4Chat;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_VERSION = 5.0;
