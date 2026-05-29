@@ -8,3 +8,6 @@ xcuserdata/
 *.xcuserdata/
 *.xcuserstate
 *.xsyncdestination
+
+# Secrets
+Secrets.json

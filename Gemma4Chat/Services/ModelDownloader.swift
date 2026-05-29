@@ -42,6 +42,16 @@ class ModelDownloader {
   private var downloadDelegates: [String: DownloadDelegate] = [:]
   private var downloadSessions: [String: URLSession] = [:]
 
+  /// Loads a value from the local Secrets.json if it exists.
+  private static var downloadUserAgent: String? {
+    guard let url = Bundle.main.url(forResource: "Secrets", withExtension: "json"),
+          let data = try? Data(contentsOf: url),
+          let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+      return nil
+    }
+    return json["DOWNLOAD_USER_AGENT"] as? String
+  }
+
   init() {
     // Check which models are already downloaded.
     for model in GemmaModel.allModels {
@@ -136,7 +146,12 @@ class ModelDownloader {
     let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
     downloadSessions[model.id] = session
     
-    let task = session.downloadTask(with: model.downloadURL)
+    var request = URLRequest(url: model.downloadURL)
+    if let customUA = Self.downloadUserAgent {
+      request.setValue(customUA, forHTTPHeaderField: "User-Agent")
+    }
+    
+    let task = session.downloadTask(with: request)
     activeDownloads[model.id] = task
     downloadDelegates[model.id] = delegate
     task.resume()

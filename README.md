@@ -70,11 +70,8 @@ The LiteRTLM Swift package is distributed internally. To set it up:
 |-------|------|-------------|
 | Gemma 4 E4B | ~3.6 GB | Next-generation high-performance local model with full native chain-of-thought reasoning |
 | Gemma 4 E2B | ~2.5 GB | Next-generation compact local model with native chain-of-thought reasoning |
-| Gemma 3n E4B | ~4.1 GB | Larger, more capable model for complex conversations |
-| Gemma 3n E2B | ~3.3 GB | Compact, efficient model for on-device chat |
-| Gemma 3 1B | ~529 MB | Small, fast model ideal for quick responses |
 
-Models are downloaded from HuggingFace on first use and stored locally.
+Models are downloaded from Google AI Edge Gallery CDN on first use and stored locally.
 
 ## Design Patterns
 
