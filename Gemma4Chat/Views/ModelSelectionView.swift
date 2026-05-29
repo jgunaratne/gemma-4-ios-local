@@ -1,10 +1,59 @@
 import SwiftUI
 
+/// Represents a selectable model option (local or cloud).
+enum ModelOption: Hashable, Identifiable {
+  case local(GemmaModel)
+  case geminiCloud
+
+  var id: String {
+    switch self {
+    case .local(let model): return model.id
+    case .geminiCloud: return "gemini-cloud"
+    }
+  }
+
+  var displayName: String {
+    switch self {
+    case .local(let model): return model.displayName
+    case .geminiCloud: return "Gemini 3.5 Flash"
+    }
+  }
+
+  var subtitle: String {
+    switch self {
+    case .local(let model): return model.sizeDescription
+    case .geminiCloud: return "Cloud API"
+    }
+  }
+
+  var info: String {
+    switch self {
+    case .local(let model): return model.info
+    case .geminiCloud: return "Google's fastest cloud model with thinking capabilities. Requires an API key."
+    }
+  }
+
+  var isCloud: Bool {
+    if case .geminiCloud = self { return true }
+    return false
+  }
+}
+
 struct ModelSelectionView: View {
   @Bindable var downloader: ModelDownloader
   let isInitializing: Bool
-  let onModelSelected: (GemmaModel) -> Void
-  let onModelSelectedForQuiz: (GemmaModel) -> Void
+  let onStartChat: (ModelOption) -> Void
+  let onCreateQuiz: (ModelOption) -> Void
+
+  @AppStorage("geminiAPIKey") private var geminiAPIKey: String = ""
+  @State private var editingAPIKey: String = ""
+  @State private var isAPIKeyVisible: Bool = false
+  @State private var selectedOption: ModelOption = .local(.gemma4_e4b)
+
+  /// All model options: on-device models + Gemini cloud.
+  private var allOptions: [ModelOption] {
+    GemmaModel.allModels.map { .local($0) } + [.geminiCloud]
+  }
 
   var body: some View {
     ScrollView {
@@ -12,19 +61,16 @@ struct ModelSelectionView: View {
         // Header
         headerSection
 
-        // Model cards
-        ForEach(GemmaModel.allModels) { model in
-          ModelCard(
-            model: model,
-            status: downloader.status(for: model),
-            isInitializing: isInitializing,
-            onDownload: { downloader.downloadModel(model) },
-            onCancel: { downloader.cancelDownload(model) },
-            onDelete: { downloader.deleteModel(model) },
-            onSelect: { onModelSelected(model) },
-            onSelectQuiz: { onModelSelectedForQuiz(model) }
-          )
+        // Model selector
+        modelSelector
+
+        // API key section (only shown for cloud model)
+        if selectedOption.isCloud {
+          apiKeySection
         }
+
+        // Action buttons
+        actionButtons
 
         Spacer().frame(height: 32)
       }
@@ -42,7 +88,12 @@ struct ModelSelectionView: View {
       )
     )
     .navigationBarTitleDisplayMode(.inline)
+    .onAppear {
+      editingAPIKey = geminiAPIKey
+    }
   }
+
+  // MARK: - Header
 
   private var headerSection: some View {
     VStack(spacing: 12) {
@@ -76,7 +127,7 @@ struct ModelSelectionView: View {
           )
         )
 
-      Text("Private, on-device AI conversations")
+      Text("On-device & cloud AI conversations")
         .font(.system(size: 16))
         .foregroundStyle(.secondary)
 
@@ -93,157 +144,274 @@ struct ModelSelectionView: View {
     }
     .padding(.bottom, 8)
   }
-}
 
-// MARK: - Model Card
-struct ModelCard: View {
-  let model: GemmaModel
-  let status: DownloadStatus
-  let isInitializing: Bool
-  let onDownload: () -> Void
-  let onCancel: () -> Void
-  let onDelete: () -> Void
-  let onSelect: () -> Void
-  let onSelectQuiz: () -> Void
+  // MARK: - Model Selector
 
-  var body: some View {
-    VStack(alignment: .leading, spacing: 14) {
-      // Title row
-      HStack {
-        VStack(alignment: .leading, spacing: 4) {
-          Text(model.displayName)
-            .font(.system(size: 18, weight: .semibold))
-            .foregroundStyle(.primary)
+  private var modelSelector: some View {
+    VStack(alignment: .leading, spacing: 4) {
+      Text("Select Model")
+        .font(.system(size: 13, weight: .semibold))
+        .foregroundStyle(.secondary)
+        .padding(.leading, 4)
 
-          Text(model.sizeDescription)
-            .font(.system(size: 13, weight: .medium))
+      VStack(spacing: 0) {
+        ForEach(Array(allOptions.enumerated()), id: \.element.id) { index, option in
+          modelRow(option)
+
+          if index < allOptions.count - 1 {
+            Divider()
+              .padding(.leading, 52)
+          }
+        }
+      }
+      .background(
+        RoundedRectangle(cornerRadius: 16)
+          .fill(Color(.secondarySystemBackground))
+      )
+      .overlay(
+        RoundedRectangle(cornerRadius: 16)
+          .stroke(Color(.separator).opacity(0.3), lineWidth: 0.5)
+      )
+    }
+  }
+
+  private func modelRow(_ option: ModelOption) -> some View {
+    let isSelected = selectedOption == option
+    let downloadStatus = localDownloadStatus(for: option)
+
+    return Button {
+      withAnimation(.easeInOut(duration: 0.2)) {
+        selectedOption = option
+      }
+    } label: {
+      HStack(spacing: 14) {
+        // Radio button
+        ZStack {
+          Circle()
+            .stroke(
+              isSelected ? Color(hex: "4285F4") : Color(.systemGray3),
+              lineWidth: 2
+            )
+            .frame(width: 22, height: 22)
+
+          if isSelected {
+            Circle()
+              .fill(Color(hex: "4285F4"))
+              .frame(width: 12, height: 12)
+          }
+        }
+
+        // Model info
+        VStack(alignment: .leading, spacing: 3) {
+          HStack(spacing: 6) {
+            Text(option.displayName)
+              .font(.system(size: 16, weight: .semibold))
+              .foregroundStyle(.primary)
+
+            if option.isCloud {
+              Text("Cloud")
+                .font(.system(size: 10, weight: .bold))
+                .foregroundStyle(.white)
+                .padding(.horizontal, 6)
+                .padding(.vertical, 2)
+                .background(
+                  Capsule()
+                    .fill(
+                      LinearGradient(
+                        colors: [Color(hex: "4285F4"), Color(hex: "34A853")],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                      )
+                    )
+                )
+            }
+          }
+
+          Text(option.subtitle)
+            .font(.system(size: 13))
             .foregroundStyle(.secondary)
         }
 
         Spacer()
 
-        statusBadge
+        // Status badge
+        statusBadge(for: option, downloadStatus: downloadStatus)
       }
-
-      // Info
-      Text(model.info)
-        .font(.system(size: 14))
-        .foregroundStyle(.secondary)
-        .lineLimit(2)
-
-      // Progress bar for downloading
-      if case let .downloading(progress) = status {
-        VStack(spacing: 6) {
-          ProgressView(value: progress)
-            .tint(Color(hex: "4285F4"))
-
-          HStack {
-            Text("\(Int(progress * 100))%")
-              .font(.system(size: 12, weight: .medium, design: .monospaced))
-              .foregroundStyle(.secondary)
-
-            Spacer()
-
-            Button("Cancel", action: onCancel)
-              .font(.system(size: 13, weight: .medium))
-              .foregroundStyle(.red)
-          }
-        }
-      }
-
-      // Error message
-      if case let .failed(message) = status {
-        Text(message)
-          .font(.system(size: 12))
-          .foregroundStyle(.red)
-          .lineLimit(2)
-      }
-
-      // Action button
-      actionButton
+      .padding(.horizontal, 16)
+      .padding(.vertical, 14)
+      .contentShape(Rectangle())
     }
-    .padding(18)
-    .background(
-      RoundedRectangle(cornerRadius: 20)
-        .fill(Color(.secondarySystemBackground))
-        .shadow(color: .black.opacity(0.04), radius: 8, y: 4)
-    )
-    .overlay(
-      RoundedRectangle(cornerRadius: 20)
-        .stroke(
-          status.isDownloaded
-            ? Color(hex: "4285F4").opacity(0.3)
-            : Color.clear,
-          lineWidth: 1.5
-        )
-    )
+    .buttonStyle(.plain)
   }
 
   @ViewBuilder
-  private var statusBadge: some View {
-    switch status {
-    case .downloaded:
+  private func statusBadge(for option: ModelOption, downloadStatus: DownloadStatus?) -> some View {
+    if option.isCloud {
       HStack(spacing: 4) {
-        Image(systemName: "checkmark.circle.fill")
-          .font(.system(size: 12))
+        Image(systemName: "bolt.fill")
+          .font(.system(size: 10))
         Text("Ready")
-          .font(.system(size: 12, weight: .semibold))
+          .font(.system(size: 11, weight: .semibold))
       }
       .foregroundStyle(Color.green)
-      .padding(.horizontal, 10)
-      .padding(.vertical, 5)
-      .background(
-        Capsule().fill(Color.green.opacity(0.12))
-      )
+      .padding(.horizontal, 8)
+      .padding(.vertical, 4)
+      .background(Capsule().fill(Color.green.opacity(0.12)))
+    } else if let status = downloadStatus {
+      switch status {
+      case .downloaded:
+        HStack(spacing: 4) {
+          Image(systemName: "checkmark.circle.fill")
+            .font(.system(size: 10))
+          Text("Ready")
+            .font(.system(size: 11, weight: .semibold))
+        }
+        .foregroundStyle(Color.green)
+        .padding(.horizontal, 8)
+        .padding(.vertical, 4)
+        .background(Capsule().fill(Color.green.opacity(0.12)))
 
-    case .downloading:
-      HStack(spacing: 4) {
-        ProgressView()
-          .controlSize(.mini)
-        Text("Downloading")
-          .font(.system(size: 12, weight: .semibold))
+      case .downloading(let progress):
+        HStack(spacing: 4) {
+          ProgressView()
+            .controlSize(.mini)
+          Text("\(Int(progress * 100))%")
+            .font(.system(size: 11, weight: .semibold))
+        }
+        .foregroundStyle(Color(hex: "4285F4"))
+        .padding(.horizontal, 8)
+        .padding(.vertical, 4)
+        .background(Capsule().fill(Color(hex: "4285F4").opacity(0.12)))
+
+      case .notDownloaded:
+        Text("Not Downloaded")
+          .font(.system(size: 11, weight: .semibold))
+          .foregroundStyle(.secondary)
+          .padding(.horizontal, 8)
+          .padding(.vertical, 4)
+          .background(Capsule().fill(Color(.systemGray5)))
+
+      case .failed:
+        HStack(spacing: 4) {
+          Image(systemName: "exclamationmark.triangle.fill")
+            .font(.system(size: 10))
+          Text("Failed")
+            .font(.system(size: 11, weight: .semibold))
+        }
+        .foregroundStyle(.red)
+        .padding(.horizontal, 8)
+        .padding(.vertical, 4)
+        .background(Capsule().fill(Color.red.opacity(0.12)))
       }
-      .foregroundStyle(Color(hex: "4285F4"))
-      .padding(.horizontal, 10)
-      .padding(.vertical, 5)
-      .background(
-        Capsule().fill(Color(hex: "4285F4").opacity(0.12))
-      )
-
-    case .failed:
-      HStack(spacing: 4) {
-        Image(systemName: "exclamationmark.triangle.fill")
-          .font(.system(size: 12))
-        Text("Failed")
-          .font(.system(size: 12, weight: .semibold))
-      }
-      .foregroundStyle(.red)
-      .padding(.horizontal, 10)
-      .padding(.vertical, 5)
-      .background(
-        Capsule().fill(Color.red.opacity(0.12))
-      )
-
-    case .notDownloaded:
-      EmptyView()
     }
   }
 
-  @ViewBuilder
-  private var actionButton: some View {
-    switch status {
-    case .downloaded:
-      VStack(spacing: 12) {
-        HStack(spacing: 12) {
-          Button(action: onSelect) {
+  // MARK: - API Key Section
+
+  private var apiKeySection: some View {
+    VStack(alignment: .leading, spacing: 10) {
+      Text("Gemini API Key")
+        .font(.system(size: 13, weight: .semibold))
+        .foregroundStyle(.secondary)
+        .padding(.leading, 4)
+
+      VStack(alignment: .leading, spacing: 10) {
+        HStack(spacing: 8) {
+          Group {
+            if isAPIKeyVisible {
+              TextField("Paste your API key", text: $editingAPIKey)
+            } else {
+              SecureField("Paste your API key", text: $editingAPIKey)
+            }
+          }
+          .textFieldStyle(.plain)
+          .font(.system(size: 14, design: .monospaced))
+          .autocorrectionDisabled()
+          .textInputAutocapitalization(.never)
+          .padding(.horizontal, 14)
+          .padding(.vertical, 12)
+
+          Button {
+            isAPIKeyVisible.toggle()
+          } label: {
+            Image(systemName: isAPIKeyVisible ? "eye.slash.fill" : "eye.fill")
+              .font(.system(size: 14))
+              .foregroundStyle(.secondary)
+              .frame(width: 36, height: 36)
+          }
+          .padding(.trailing, 8)
+        }
+        .background(
+          RoundedRectangle(cornerRadius: 12)
+            .fill(Color(.tertiarySystemBackground))
+        )
+        .onChange(of: editingAPIKey) { _, newValue in
+          geminiAPIKey = newValue
+        }
+
+        Link(destination: URL(string: "https://aistudio.google.com/apikey")!) {
+          HStack(spacing: 4) {
+            Image(systemName: "arrow.up.right.square")
+              .font(.system(size: 11))
+            Text("Get an API key from Google AI Studio")
+              .font(.system(size: 12, weight: .medium))
+          }
+          .foregroundStyle(Color(hex: "4285F4"))
+        }
+        .padding(.leading, 4)
+      }
+    }
+    .padding(16)
+    .background(
+      RoundedRectangle(cornerRadius: 16)
+        .fill(Color(.secondarySystemBackground))
+    )
+  }
+
+  // MARK: - Action Buttons
+
+  private var actionButtons: some View {
+    VStack(spacing: 12) {
+      // Download button (only for local models that aren't downloaded)
+      if case .local(let model) = selectedOption {
+        let status = downloader.status(for: model)
+
+        if case .downloading(let progress) = status {
+          VStack(spacing: 8) {
+            ProgressView(value: progress)
+              .tint(Color(hex: "4285F4"))
+
             HStack {
-              Image(systemName: "message.fill")
-              Text("Start Chat")
+              Text("Downloading… \(Int(progress * 100))%")
+                .font(.system(size: 13, weight: .medium))
+                .foregroundStyle(.secondary)
+              Spacer()
+              Button("Cancel") {
+                downloader.cancelDownload(model)
+              }
+              .font(.system(size: 13, weight: .semibold))
+              .foregroundStyle(.red)
+            }
+          }
+          .padding(16)
+          .background(
+            RoundedRectangle(cornerRadius: 16)
+              .fill(Color(.secondarySystemBackground))
+          )
+        }
+
+        if !status.isDownloaded && !status.isDownloading {
+          Button {
+            downloader.downloadModel(model)
+          } label: {
+            HStack {
+              Image(systemName: "arrow.down.circle.fill")
+              Text("Download \(model.displayName)")
             }
             .font(.system(size: 15, weight: .semibold))
             .foregroundStyle(.white)
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 13)
+            .padding(.vertical, 14)
             .background(
               LinearGradient(
                 colors: [Color(hex: "4285F4"), Color(hex: "6C63FF")],
@@ -253,63 +421,97 @@ struct ModelCard: View {
             )
             .clipShape(RoundedRectangle(cornerRadius: 14))
           }
-          .disabled(isInitializing)
-          .opacity(isInitializing ? 0.6 : 1)
-
-          Button(action: onDelete) {
-            Image(systemName: "trash")
-              .font(.system(size: 15, weight: .medium))
-              .foregroundStyle(.red)
-              .frame(width: 46, height: 46)
-              .background(
-                RoundedRectangle(cornerRadius: 14)
-                  .fill(Color.red.opacity(0.08))
-              )
-          }
         }
-
-        Button(action: onSelectQuiz) {
-          HStack {
-            Image(systemName: "brain.head.profile")
-            Text("Create Quiz")
-          }
-          .font(.system(size: 15, weight: .semibold))
-          .foregroundStyle(Color(hex: "9B72CB"))
-          .frame(maxWidth: .infinity)
-          .padding(.vertical, 12)
-          .background(
-            RoundedRectangle(cornerRadius: 14)
-              .stroke(Color(hex: "9B72CB").opacity(0.4), lineWidth: 1.5)
-              .background(Color(hex: "9B72CB").opacity(0.05))
-          )
-          .clipShape(RoundedRectangle(cornerRadius: 14))
-        }
-        .disabled(isInitializing)
-        .opacity(isInitializing ? 0.6 : 1)
       }
 
-    case .notDownloaded, .failed:
-      Button(action: onDownload) {
-        HStack {
-          Image(systemName: "arrow.down.circle.fill")
-          Text("Download")
+      // Start Chat button
+      Button {
+        if case .geminiCloud = selectedOption, editingAPIKey != geminiAPIKey {
+          geminiAPIKey = editingAPIKey
         }
-        .font(.system(size: 15, weight: .semibold))
+        onStartChat(selectedOption)
+      } label: {
+        HStack {
+          Image(systemName: "message.fill")
+          Text("Start Chat")
+        }
+        .font(.system(size: 16, weight: .semibold))
         .foregroundStyle(.white)
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 13)
+        .padding(.vertical, 14)
         .background(
           LinearGradient(
-            colors: [Color(hex: "4285F4"), Color(hex: "6C63FF")],
+            colors: canStartChat
+              ? [Color(hex: "4285F4"), Color(hex: "6C63FF")]
+              : [Color(.systemGray3), Color(.systemGray3)],
             startPoint: .leading,
             endPoint: .trailing
           )
         )
         .clipShape(RoundedRectangle(cornerRadius: 14))
+        .shadow(color: canStartChat ? Color(hex: "4285F4").opacity(0.2) : .clear, radius: 10, y: 4)
       }
+      .disabled(!canStartChat || isInitializing)
+      .opacity((!canStartChat || isInitializing) ? 0.6 : 1)
 
-    case .downloading:
-      EmptyView()
+      // Create Quiz button
+      Button {
+        if case .geminiCloud = selectedOption, editingAPIKey != geminiAPIKey {
+          geminiAPIKey = editingAPIKey
+        }
+        onCreateQuiz(selectedOption)
+      } label: {
+        HStack {
+          Image(systemName: "brain.head.profile")
+          Text("Create Quiz")
+        }
+        .font(.system(size: 15, weight: .semibold))
+        .foregroundStyle(Color(hex: "9B72CB"))
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 12)
+        .background(
+          RoundedRectangle(cornerRadius: 14)
+            .stroke(Color(hex: "9B72CB").opacity(0.4), lineWidth: 1.5)
+            .background(Color(hex: "9B72CB").opacity(0.05))
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 14))
+      }
+      .disabled(!canStartChat || isInitializing)
+      .opacity((!canStartChat || isInitializing) ? 0.6 : 1)
+
+      // Delete button (only for downloaded local models)
+      if case .local(let model) = selectedOption, downloader.status(for: model).isDownloaded {
+        Button {
+          downloader.deleteModel(model)
+        } label: {
+          HStack {
+            Image(systemName: "trash")
+            Text("Delete Model")
+          }
+          .font(.system(size: 14, weight: .medium))
+          .foregroundStyle(.red)
+        }
+        .padding(.top, 4)
+      }
     }
+  }
+
+  // MARK: - Helpers
+
+  /// Whether the current selection is ready for chat/quiz.
+  private var canStartChat: Bool {
+    switch selectedOption {
+    case .local(let model):
+      return downloader.status(for: model).isDownloaded
+    case .geminiCloud:
+      return !editingAPIKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+  }
+
+  private func localDownloadStatus(for option: ModelOption) -> DownloadStatus? {
+    if case .local(let model) = option {
+      return downloader.status(for: model)
+    }
+    return nil
   }
 }

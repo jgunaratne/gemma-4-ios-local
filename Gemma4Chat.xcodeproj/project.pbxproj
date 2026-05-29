@@ -15,6 +15,7 @@
 		46DF132DFAF31DB4D143A222 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52EBA4790ED2EABE41DD0BA /* View+Extensions.swift */; };
 		504FC9DBB11203E10EB196D8 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88ECA53D10F035C96345C242 /* Message.swift */; };
 		548A96E9FE48115A2F0C8FC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93A5E1F75E3F48B2A8A38D78 /* Assets.xcassets */; };
+		A1F3C9D82B4E6A9F0D1E7B3C /* Secrets.json in Resources */ = {isa = PBXBuildFile; fileRef = F7A2B8E41C5D3F0A9E6B4D2F /* Secrets.json */; };
 		5D98BE1F90D12F24B4C7B225 /* Capabilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5FA2E5179492AF43A32CA /* Capabilities.swift */; };
 		5EAD3B93348E9619E571F88A /* LiteRTLMError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA96A76C4D0CF179A828D577 /* LiteRTLMError.swift */; };
 		69C84A6308D48FCE5D9CC434 /* CLiteRTLM.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A6E31C528149239E252FECB2 /* CLiteRTLM.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -37,6 +38,12 @@
 		FCE81FAAABCE6D5025823AFE /* ToolManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7FCF5AE48F4594D69F4F4FA /* ToolManager.swift */; };
 		FE3CDB19925EA83890BC9F5F /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44BE0031DC328508E3772D4 /* RootView.swift */; };
 		FFCEB21712FD7854DE828744 /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4365B6B48D14125C7DD76505 /* QuizView.swift */; };
+		A2B3C4D5E6F70819A3B4C5D6 /* GeminiAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E4F5A6B7C80921D4E5F6A7 /* GeminiAPIService.swift */; };
+		B3C4D5E6F708192AB4C5D6E7 /* GeminiChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F5A6B7C809213BE5F6A7B8 /* GeminiChatViewModel.swift */; };
+		C4D5E6F70819234BC5D6E7F8 /* GeminiChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A6B7C809214CD6E7F8A9B0 /* GeminiChatView.swift */; };
+		D5E6F708192345CC6D7E8F9A /* GeminiFlashCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B7C809215DE7F8A9B0C1D2 /* GeminiFlashCard.swift */; };
+		E6F708193456DC7D8E9FA0B1 /* GeminiQuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C809216EF8A9B0C1D2E3F4 /* GeminiQuizViewModel.swift */; };
+		F70819345678ED8E9FA0B1C2 /* GeminiQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C809217FA9B0C1D2E3F4A5B6 /* GeminiQuizView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -65,16 +72,23 @@
 		3FFD292CAD62D806558685B1 /* GemmaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GemmaModel.swift; sourceTree = "<group>"; };
 		4365B6B48D14125C7DD76505 /* QuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizView.swift; sourceTree = "<group>"; };
 		44705026332DA054284206D2 /* LLMInferenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMInferenceService.swift; sourceTree = "<group>"; };
+		D3E4F5A6B7C80921D4E5F6A7 /* GeminiAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiAPIService.swift; sourceTree = "<group>"; };
+		E4F5A6B7C809213BE5F6A7B8 /* GeminiChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiChatViewModel.swift; sourceTree = "<group>"; };
+		F5A6B7C809214CD6E7F8A9B0 /* GeminiChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiChatView.swift; sourceTree = "<group>"; };
+		A6B7C809215DE7F8A9B0C1D2 /* GeminiFlashCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiFlashCard.swift; sourceTree = "<group>"; };
+		B7C809216EF8A9B0C1D2E3F4 /* GeminiQuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiQuizViewModel.swift; sourceTree = "<group>"; };
+		C809217FA9B0C1D2E3F4A5B6 /* GeminiQuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiQuizView.swift; sourceTree = "<group>"; };
 		460AA6F9D8A359A4CE0BFAC7 /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
 		4AEB4FC3736E443298416AD2 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		76F71E496B14FA6979D10A68 /* ExperimentalFlags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExperimentalFlags.swift; sourceTree = "<group>"; };
 		88ECA53D10F035C96345C242 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		8BD5FA2E5179492AF43A32CA /* Capabilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Capabilities.swift; sourceTree = "<group>"; };
 		93A5E1F75E3F48B2A8A38D78 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F7A2B8E41C5D3F0A9E6B4D2F /* Secrets.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Secrets.json; sourceTree = "<group>"; };
 		9C877B4F4C4DADFAF75D6207 /* Benchmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Benchmark.swift; sourceTree = "<group>"; };
 		9D789FF3FDDD023CDC2D33B7 /* QuizQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizQuestion.swift; sourceTree = "<group>"; };
 		9FCFE9093E91199A7FE8B2A6 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
-		A0289FC793958CA2D294729F /* Gemma4Chat.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Gemma4Chat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A0289FC793958CA2D294729F /* Gemma4Chat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gemma4Chat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6E31C528149239E252FECB2 /* CLiteRTLM.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CLiteRTLM.xcframework; path = Frameworks/CLiteRTLM.xcframework; sourceTree = "<group>"; };
 		BB2C6D55CFE1B01EF045C191 /* InferenceStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InferenceStats.swift; sourceTree = "<group>"; };
 		C52EBA4790ED2EABE41DD0BA /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
@@ -101,6 +115,7 @@
 		2AEBBB52C43D831D4D9648D6 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				D3E4F5A6B7C80921D4E5F6A7 /* GeminiAPIService.swift */,
 				44705026332DA054284206D2 /* LLMInferenceService.swift */,
 				FE0216262979B7A25C90D186 /* ModelDownloader.swift */,
 			);
@@ -136,6 +151,8 @@
 			isa = PBXGroup;
 			children = (
 				26DA5819BB29F8FBA18098C6 /* ChatViewModel.swift */,
+				E4F5A6B7C809213BE5F6A7B8 /* GeminiChatViewModel.swift */,
+				B7C809216EF8A9B0C1D2E3F4 /* GeminiQuizViewModel.swift */,
 				2E4F7A2534788FB9E0969D6D /* QuizViewModel.swift */,
 			);
 			path = ViewModels;
@@ -145,6 +162,9 @@
 			isa = PBXGroup;
 			children = (
 				0EB28EDF8935C24CCD363175 /* ChatView.swift */,
+				F5A6B7C809214CD6E7F8A9B0 /* GeminiChatView.swift */,
+				A6B7C809215DE7F8A9B0C1D2 /* GeminiFlashCard.swift */,
+				C809217FA9B0C1D2E3F4A5B6 /* GeminiQuizView.swift */,
 				2AA29F5A98C09D3B419AFEC7 /* MessageBubble.swift */,
 				3433D975BEA35489B4294FAC /* ModelSelectionView.swift */,
 				3B310162F27B1A324B7B6FBA /* QuizCreationSheet.swift */,
@@ -196,6 +216,7 @@
 			children = (
 				93A5E1F75E3F48B2A8A38D78 /* Assets.xcassets */,
 				D22FA2905D5B44CC9BB17458 /* Gemma4ChatApp.swift */,
+				F7A2B8E41C5D3F0A9E6B4D2F /* Secrets.json */,
 				A1B22D685396AD84DA312A3F /* Extensions */,
 				8F0B6C2BD20845177707C1BB /* LiteRTLM */,
 				9EF2CDFB9D4BCEB720AC837A /* Models */,
@@ -237,11 +258,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1600;
-				TargetAttributes = {
-					6A965781CBD56F9C9E65F6A8 = {
-						ProvisioningStyle = Automatic;
-					};
-				};
 			};
 			buildConfigurationList = 851C7CF4C6C474EAF53E865F /* Build configuration list for PBXProject "Gemma4Chat" */;
 			developmentRegion = en;
@@ -268,6 +284,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				548A96E9FE48115A2F0C8FC8 /* Assets.xcassets in Resources */,
+				A1F3C9D82B4E6A9F0D1E7B3C /* Secrets.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,6 +306,12 @@
 				0CBFFFD267C0CE615B7EC1D6 /* Engine.swift in Sources */,
 				E67030A5C8FD0826799E15C9 /* ExperimentalFlags.swift in Sources */,
 				C0446E3B4C8CFB200BFA1488 /* Gemma4ChatApp.swift in Sources */,
+				A2B3C4D5E6F70819A3B4C5D6 /* GeminiAPIService.swift in Sources */,
+				C4D5E6F70819234BC5D6E7F8 /* GeminiChatView.swift in Sources */,
+				B3C4D5E6F708192AB4C5D6E7 /* GeminiChatViewModel.swift in Sources */,
+				D5E6F708192345CC6D7E8F9A /* GeminiFlashCard.swift in Sources */,
+				F70819345678ED8E9FA0B1C2 /* GeminiQuizView.swift in Sources */,
+				E6F708193456DC7D8E9FA0B1 /* GeminiQuizViewModel.swift in Sources */,
 				D824E891AC9FC46B9FBBBD9B /* GemmaModel.swift in Sources */,
 				D8829F813B7774F3E8943E83 /* InferenceStats.swift in Sources */,
 				8FB06D77773F7321360505A1 /* LLMInferenceService.swift in Sources */,
@@ -372,8 +395,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = EQHXZ8M8AV;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"Frameworks\"",
@@ -393,6 +418,8 @@
 					"$(inherited)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jgunaratne.Gemma4Chat;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Google Development";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 5.0;
@@ -405,8 +432,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = EQHXZ8M8AV;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"Frameworks\"",
@@ -426,6 +455,8 @@
 					"$(inherited)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jgunaratne.Gemma4Chat;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Google Development";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_VERSION = 5.0;

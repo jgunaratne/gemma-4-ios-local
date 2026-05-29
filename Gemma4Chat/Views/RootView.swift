@@ -5,13 +5,20 @@ struct RootView: View {
   @State private var inferenceService = LLMInferenceService()
   @State private var chatViewModel: ChatViewModel?
   @State private var quizViewModel: QuizViewModel?
+  @State private var geminiChatViewModel: GeminiChatViewModel?
+  @State private var geminiQuizViewModel: GeminiQuizViewModel?
   @State private var selectedModel: GemmaModel?
+  @State private var selectedModelOption: ModelOption?
   
   @State private var showChat = false
   @State private var showQuiz = false
+  @State private var showGeminiChat = false
+  @State private var showGeminiQuiz = false
   @State private var showCreationSheet = false
   @State private var isInitializing = false
   @State private var pastedText = ""
+
+  @AppStorage("geminiAPIKey") private var geminiAPIKey: String = ""
 
   var body: some View {
     NavigationStack {
@@ -31,6 +38,20 @@ struct RootView: View {
           }
         )
         .transition(.move(edge: .trailing))
+      } else if showGeminiChat, let geminiVM = geminiChatViewModel {
+        GeminiChatView(
+          chatViewModel: geminiVM,
+          modelName: "Gemini 3.5 Flash",
+          onNewChat: {
+            geminiVM.clearMessages()
+          },
+          onBack: {
+            withAnimation {
+              showGeminiChat = false
+            }
+          }
+        )
+        .transition(.move(edge: .trailing))
       } else if showQuiz, let model = selectedModel, let quizVM = quizViewModel {
         QuizView(
           quizViewModel: quizVM,
@@ -43,15 +64,26 @@ struct RootView: View {
           }
         )
         .transition(.move(edge: .trailing))
+      } else if showGeminiQuiz, let geminiQVM = geminiQuizViewModel {
+        GeminiQuizView(
+          quizViewModel: geminiQVM,
+          modelName: "Gemini 3.5 Flash",
+          onBack: {
+            withAnimation {
+              showGeminiQuiz = false
+            }
+          }
+        )
+        .transition(.move(edge: .trailing))
       } else {
         ModelSelectionView(
           downloader: modelDownloader,
           isInitializing: isInitializing,
-          onModelSelected: { model in
-            selectModel(model)
+          onStartChat: { option in
+            handleStartChat(option)
           },
-          onModelSelectedForQuiz: { model in
-            selectedModel = model
+          onCreateQuiz: { option in
+            selectedModelOption = option
             showCreationSheet = true
           }
         )
@@ -61,19 +93,30 @@ struct RootView: View {
             text: $pastedText,
             onGenerate: {
               showCreationSheet = false
-              if let model = selectedModel {
-                startQuizFlow(model: model, text: pastedText)
+              if let option = selectedModelOption {
+                handleCreateQuiz(option, text: pastedText)
               }
               pastedText = ""
             },
             onDismiss: {
               showCreationSheet = false
-              selectedModel = nil
+              selectedModelOption = nil
               pastedText = ""
             }
           )
         }
       }
+    }
+  }
+
+  // MARK: - Start Chat
+
+  private func handleStartChat(_ option: ModelOption) {
+    switch option {
+    case .local(let model):
+      selectModel(model)
+    case .geminiCloud:
+      selectGemini(apiKey: geminiAPIKey)
     }
   }
 
@@ -94,7 +137,27 @@ struct RootView: View {
     }
   }
 
-  private func startQuizFlow(model: GemmaModel, text: String) {
+  private func selectGemini(apiKey: String) {
+    let vm = GeminiChatViewModel(apiKey: apiKey)
+    geminiChatViewModel = vm
+    withAnimation {
+      showGeminiChat = true
+    }
+  }
+
+  // MARK: - Create Quiz
+
+  private func handleCreateQuiz(_ option: ModelOption, text: String) {
+    switch option {
+    case .local(let model):
+      startLocalQuizFlow(model: model, text: text)
+    case .geminiCloud:
+      startGeminiQuizFlow(text: text)
+    }
+  }
+
+  private func startLocalQuizFlow(model: GemmaModel, text: String) {
+    selectedModel = model
     isInitializing = true
 
     let service = inferenceService
@@ -109,5 +172,14 @@ struct RootView: View {
       }
       vm.generateQuiz(from: text)
     }
+  }
+
+  private func startGeminiQuizFlow(text: String) {
+    let vm = GeminiQuizViewModel(apiKey: geminiAPIKey)
+    geminiQuizViewModel = vm
+    withAnimation {
+      showGeminiQuiz = true
+    }
+    vm.generateQuiz(from: text)
   }
 }
