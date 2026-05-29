@@ -442,7 +442,7 @@
 					"-all_load",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jgunaratne.Gemma4Chat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gunaratne.Gemma4Chat;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Google Development";
 				SDKROOT = iphoneos;
@@ -480,7 +480,7 @@
 					"-all_load",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jgunaratne.Gemma4Chat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gunaratne.Gemma4Chat;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Google Development";
 				SDKROOT = iphoneos;
