@@ -1,7 +1,7 @@
 import Foundation
 import OSLog
 
-private let logger = Logger(subsystem: "com.google.Gemma4Chat", category: "LLMInference")
+private let logger = Logger(subsystem: "Gemma4Chat", category: "LLMInference")
 
 /// Initialization status for the LLM engine.
 enum EngineStatus: Equatable {

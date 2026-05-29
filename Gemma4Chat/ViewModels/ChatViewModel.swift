@@ -2,7 +2,7 @@ import Foundation
 import OSLog
 import SwiftUI
 
-private let logger = Logger(subsystem: "com.google.Gemma4Chat", category: "ChatViewModel")
+private let logger = Logger(subsystem: "Gemma4Chat", category: "ChatViewModel")
 
 /// Main view model for the chat screen.
 /// Mirrors the AiChatViewModel pattern from the reference gallery app with streaming buffers.

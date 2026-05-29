@@ -1,7 +1,7 @@
 import Foundation
 import OSLog
 
-private let logger = Logger(subsystem: "com.google.Gemma4Chat", category: "ModelDownloader")
+private let logger = Logger(subsystem: "Gemma4Chat", category: "ModelDownloader")
 
 /// Download status for a model.
 enum DownloadStatus: Equatable {
@@ -199,7 +199,7 @@ private class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
     print("🌐 [DownloadDelegate] Finished downloading file to temp location: \(location.path)")
     if let response = downloadTask.response as? HTTPURLResponse, response.statusCode != 200 {
       let error = NSError(
-        domain: "com.google.Gemma4Chat",
+        domain: "Gemma4Chat",
         code: response.statusCode,
         userInfo: [NSLocalizedDescriptionKey: "Server returned HTTP status \(response.statusCode)"]
       )

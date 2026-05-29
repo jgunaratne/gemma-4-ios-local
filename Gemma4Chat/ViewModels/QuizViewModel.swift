@@ -2,7 +2,7 @@ import Foundation
 import OSLog
 import SwiftUI
 
-private let logger = Logger(subsystem: "com.google.Gemma4Chat", category: "QuizViewModel")
+private let logger = Logger(subsystem: "Gemma4Chat", category: "QuizViewModel")
 
 @MainActor
 @Observable
@@ -138,7 +138,7 @@ class QuizViewModel {
 
         isStillGenerating = false
         if questions.isEmpty {
-          throw NSError(domain: "com.google.Gemma4Chat", code: -1, userInfo: [NSLocalizedDescriptionKey: "Gemma completed but no valid questions could be extracted."])
+          throw NSError(domain: "Gemma4Chat", code: -1, userInfo: [NSLocalizedDescriptionKey: "Gemma completed but no valid questions could be extracted."])
         }
 
         print("✅ [QuizViewModel] Quiz successfully generated! Raw JSON response:")
