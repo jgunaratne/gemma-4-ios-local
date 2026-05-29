@@ -136,11 +136,7 @@ class ModelDownloader {
     let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
     downloadSessions[model.id] = session
     
-    // Create request and set Lorry User-Agent (required by dl.google.com CDN).
-    var request = URLRequest(url: model.downloadURL)
-    request.setValue("ZVPn5Kw7Lsc8o-YUfF", forHTTPHeaderField: "User-Agent")
-    
-    let task = session.downloadTask(with: request)
+    let task = session.downloadTask(with: model.downloadURL)
     activeDownloads[model.id] = task
     downloadDelegates[model.id] = delegate
     task.resume()
