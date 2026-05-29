@@ -61,21 +61,21 @@ class QuizViewModel {
     isFinished = false
 
     let prompt = """
-    Analyze the source text, think through the key concepts and educational points, and compile exactly a 5-question multiple-choice quiz based on its contents.
-    
-    ### SOURCE TEXT:
+    You are a quiz generator. Read the SOURCE TEXT and create exactly 5 multiple-choice questions that test understanding of its key concepts.
+
+    ### SOURCE TEXT
     \"\"\"
     \(trimmed)
     \"\"\"
-    
-    ### INSTRUCTIONS:
-    - First, use your thinking phase to outline the questions, verify the correct options, and plan the explanations.
-    - Keep explanations strictly to one clear, short sentence.
-    - Then, output your final quiz as a valid, parsable JSON array of objects in the main text block.
-    - Each object in the array must have EXACTLY these keys: "question", "options", "correctIndex", and "explanation". 
-    - Do NOT prefix option strings with letters (like A, B, C, D). Render only the option text itself.
-    
-    Strictly follow this JSON structure format:
+
+    ### RULES
+    - Create exactly 5 questions.
+    - Each question must have exactly 4 answer options.
+    - "correctIndex" is the 0-based index (0, 1, 2, or 3) of the correct option within the "options" array.
+    - Do NOT prefix options with letters or numbers (no "A.", "1)", etc.). Use only the option text.
+    - Keep each "explanation" to one short, clear sentence.
+
+    After any reasoning, your final answer MUST be ONLY a single JSON array — no markdown, no code fences, no commentary before or after — exactly matching this shape:
     [
       {
         "question": "What is the capital of France?",
@@ -137,6 +137,20 @@ class QuizViewModel {
         print("\n----------------------------------------")
 
         isStillGenerating = false
+
+        // Authoritative parse once the full response is in. The incremental regex
+        // parser above is only for the live "drafting" animation; this proper
+        // JSONDecoder pass is the source of truth and is far more tolerant of
+        // formatting quirks (code fences, smart quotes, trailing commas, etc.).
+        // Thinking models sometimes emit the JSON inside the "thought" channel,
+        // so fall back to parsing the captured thoughts if the main text yields
+        // nothing.
+        var parsed = parseQuizJSON(from: fullResponse)
+        if parsed.isEmpty {
+          parsed = parseQuizJSON(from: currentThoughts)
+        }
+        mergeQuestions(parsed)
+
         if questions.isEmpty {
           throw NSError(domain: "Gemma4Chat", code: -1, userInfo: [NSLocalizedDescriptionKey: "Gemma completed but no valid questions could be extracted."])
         }
@@ -227,30 +241,91 @@ class QuizViewModel {
         continue
       }
       
-      // Extract "options" array.
+      // Extract "options" array. Be lenient: accept anything with at least 2
+      // options so a slightly off-format question still shows during drafting.
       let options = extractOptionsArray(in: block)
-      guard options.count == 4 else {
+      guard options.count >= 2 else {
         continue
       }
-      
-      // Extract "correctIndex".
-      guard let correctIndex = extractIntValue(forKey: "correctIndex", in: block) else {
-        continue
-      }
-      
+
+      // Extract "correctIndex", clamping to a valid range.
+      let rawIndex = extractIntValue(forKey: "correctIndex", in: block) ?? 0
+      let correctIndex = min(max(rawIndex, 0), options.count - 1)
+
       // Extract "explanation".
       let explanationText = extractStringValue(forKey: "explanation", in: block) ?? "No explanation provided."
-      
+
       let newQuestion = QuizQuestion(
         question: questionText,
         options: options,
         correctIndex: correctIndex,
         explanation: explanationText
       )
-      
+
       // Animate addition immediately into the active array
       withAnimation(.spring(response: 0.45, dampingFraction: 0.75)) {
         questions.append(newQuestion)
+      }
+    }
+  }
+
+  // MARK: - Authoritative JSON Parsing
+
+  /// Robustly parses a quiz out of a raw model response using `JSONDecoder`.
+  /// Tolerates markdown code fences, smart quotes, trailing commas and a
+  /// `correctIndex` encoded as either a number or a string.
+  private func parseQuizJSON(from raw: String) -> [QuizQuestion] {
+    let sanitized = sanitizeJSON(raw)
+    guard let arrayString = extractJSONArray(from: sanitized),
+          let data = arrayString.data(using: .utf8) else {
+      return []
+    }
+
+    guard let dtos = try? JSONDecoder().decode([QuizQuestionDTO].self, from: data) else {
+      return []
+    }
+    return dtos.compactMap { $0.toQuizQuestion() }
+  }
+
+  /// Strips code fences / smart quotes and removes trailing commas so the text
+  /// stands a chance of being valid JSON.
+  private func sanitizeJSON(_ raw: String) -> String {
+    var text = raw
+    // Remove markdown code fences such as ```json ... ```
+    text = text.replacingOccurrences(
+      of: "```[a-zA-Z]*", with: "", options: .regularExpression)
+    text = text.replacingOccurrences(of: "```", with: "")
+    // Normalize curly/smart quotes to straight quotes.
+    let replacements: [String: String] = [
+      "\u{201C}": "\"", "\u{201D}": "\"", "\u{2018}": "'", "\u{2019}": "'",
+    ]
+    for (from, to) in replacements {
+      text = text.replacingOccurrences(of: from, with: to)
+    }
+    // Remove trailing commas before a closing ] or } (e.g. `"d"],` -> `"d"]`).
+    text = text.replacingOccurrences(
+      of: ",\\s*([\\]}])", with: "$1", options: .regularExpression)
+    return text
+  }
+
+  /// Extracts the outermost JSON array substring (first `[` to the matching
+  /// last `]`) from arbitrary surrounding text.
+  private func extractJSONArray(from text: String) -> String? {
+    guard let start = text.firstIndex(of: "["),
+          let end = text.lastIndex(of: "]"),
+          start < end else {
+      return nil
+    }
+    return String(text[start...end])
+  }
+
+  /// Merges `newQuestions` into the live list, preserving any already displayed
+  /// during drafting and appending only ones not yet present (matched by question
+  /// text) so the active quiz isn't disrupted mid-answer.
+  private func mergeQuestions(_ newQuestions: [QuizQuestion]) {
+    for question in newQuestions {
+      if !questions.contains(where: { $0.question == question.question }) {
+        questions.append(question)
       }
     }
   }
@@ -301,5 +376,51 @@ class QuizViewModel {
       nsArrayString.substring(with: $0.range(at: 1))
         .replacingOccurrences(of: "\\\"", with: "\"")
     }
+  }
+}
+
+// MARK: - Lenient Decoding
+
+/// A `correctIndex` value that may arrive from the model as either a JSON
+/// number (`1`) or a JSON string (`"1"`).
+private struct FlexibleInt: Decodable {
+  let value: Int
+
+  init(from decoder: Decoder) throws {
+    let container = try decoder.singleValueContainer()
+    if let intValue = try? container.decode(Int.self) {
+      value = intValue
+    } else if let stringValue = try? container.decode(String.self),
+              let parsed = Int(stringValue.trimmingCharacters(in: .whitespaces)) {
+      value = parsed
+    } else {
+      value = 0
+    }
+  }
+}
+
+/// Tolerant decoding shape for a single quiz question. Maps to `QuizQuestion`
+/// after validation/clamping so malformed-but-recoverable entries still work.
+private struct QuizQuestionDTO: Decodable {
+  let question: String
+  let options: [String]
+  let correctIndex: FlexibleInt?
+  let explanation: String?
+
+  func toQuizQuestion() -> QuizQuestion? {
+    let trimmedQuestion = question.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !trimmedQuestion.isEmpty, options.count >= 2 else { return nil }
+
+    let rawIndex = correctIndex?.value ?? 0
+    let clampedIndex = min(max(rawIndex, 0), options.count - 1)
+
+    let explanationText = (explanation?.isEmpty == false) ? explanation! : "No explanation provided."
+
+    return QuizQuestion(
+      question: trimmedQuestion,
+      options: options,
+      correctIndex: clampedIndex,
+      explanation: explanationText
+    )
   }
 }
