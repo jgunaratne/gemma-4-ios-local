@@ -13,6 +13,10 @@ final class AudioPlayer {
   /// Current playback level (0…1) for the output visualizer.
   private(set) var outputLevel: Float = 0
 
+  /// Gain boost applied to decoded PCM samples. .voiceChat mode reduces
+  /// output volume for echo cancellation; this compensates.
+  private static let outputGain: Float = 2.5
+
   private var audioEngine: AVAudioEngine?
   private var playerNode: AVAudioPlayerNode?
 
@@ -42,6 +46,9 @@ final class AudioPlayer {
       .playAndRecord, mode: .voiceChat,
       options: [.defaultToSpeaker, .allowBluetoothHFP])
     try audioSession.setActive(true)
+    // Force the loudspeaker — .defaultToSpeaker alone doesn't always
+    // override .voiceChat's preference for the ear speaker.
+    try audioSession.overrideOutputAudioPort(.speaker)
 
     let engine = AVAudioEngine()
     let node = AVAudioPlayerNode()
@@ -91,13 +98,16 @@ final class AudioPlayer {
     try engine.start()
     node.play()
 
+    // Boost mixer output — helps counteract .voiceChat volume reduction
+    engine.mainMixerNode.outputVolume = 1.5
+
     audioEngine = engine
     playerNode = node
     chainFormat = format
     sourceFormat = srcFmt
     audioConverter = converter
 
-    print("[AudioPlayer] Engine started — chain format: \(format)")
+    print("[AudioPlayer] Engine started — gain: \(Self.outputGain)x, mixerVol: 1.5")
   }
 
   func stop() {
@@ -143,9 +153,16 @@ final class AudioPlayer {
       guard let src = rawBuf.bindMemory(to: Int16.self).baseAddress,
         let dst = srcBuffer.floatChannelData?[0]
       else { return }
+      // Convert Int16 → Float32
       for i in 0..<sampleCount {
         dst[i] = Float(src[i]) / 32768.0
       }
+      // Apply gain boost and clip to [-1.0, 1.0]
+      var gain = Self.outputGain
+      vDSP_vsmul(dst, 1, &gain, dst, 1, vDSP_Length(sampleCount))
+      var lo: Float = -1.0
+      var hi: Float = 1.0
+      vDSP_vclip(dst, 1, &lo, &hi, dst, 1, vDSP_Length(sampleCount))
     }
 
     // Step 2: Resample 24 kHz → hardware rate
