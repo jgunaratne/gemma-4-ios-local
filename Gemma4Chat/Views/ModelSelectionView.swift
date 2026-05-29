@@ -723,9 +723,9 @@ struct ModelSelectionView: View {
     Your job is to analyze the provided content/transcript and design a highly compelling, specific voice character/narrator who is perfect for reading, presenting, or having a live conversation about this text.
 
     Task:
-    1. Analyze the theme, tone, and subject matter of the content below.
-    2. Invent a specific character persona to read this text.
-    3. Write a detailed, concise 1-2 paragraph character description. Include details like their profession, age, gender/accent (e.g., crisp male British reporter, warm motherly therapist, energetic tech-bro, stoic ancient wizard), emotional tone, speech pacing, vocabulary style (e.g., uses formal wording, uses friendly contractions, speaks with high-pitched robotic energy), and specific guidelines for how they should speak (e.g., "Keep responses short, clear, and highly enthusiastic").
+    1. Analyze the speakers in the text below. Identify their accent, speech style, speed, specific vocabulary/language choices, and their overall personality traits.
+    2. Design a character persona who mirrors this exact same style of accent, speech, language, and personality of the speakers in the podcast/context.
+    3. Write a detailed, concise 1-2 paragraph character description. Include details like their profession, age, gender/accent, emotional tone, speech pacing, vocabulary style (e.g., uses formal wording, uses friendly contractions, uses specific jargon), and specific guidelines for how they should speak (e.g., "Keep responses short, conversational, match their regional accent, and use the same informal vocabulary").
 
     Content:
     \"\"\"
