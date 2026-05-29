@@ -4,11 +4,13 @@ import SwiftUI
 enum ModelOption: Hashable, Identifiable {
   case local(GemmaModel)
   case geminiCloud
+  case geminiLive
 
   var id: String {
     switch self {
     case .local(let model): return model.id
     case .geminiCloud: return "gemini-cloud"
+    case .geminiLive: return "gemini-live"
     }
   }
 
@@ -16,6 +18,7 @@ enum ModelOption: Hashable, Identifiable {
     switch self {
     case .local(let model): return model.displayName
     case .geminiCloud: return "Gemini 3.5 Flash"
+    case .geminiLive: return "Gemini Live 3.1"
     }
   }
 
@@ -23,6 +26,7 @@ enum ModelOption: Hashable, Identifiable {
     switch self {
     case .local(let model): return model.sizeDescription
     case .geminiCloud: return "Cloud API"
+    case .geminiLive: return "Voice Chat"
     }
   }
 
@@ -30,11 +34,19 @@ enum ModelOption: Hashable, Identifiable {
     switch self {
     case .local(let model): return model.info
     case .geminiCloud: return "Google's fastest cloud model with thinking capabilities. Requires an API key."
+    case .geminiLive: return "Real-time voice conversation with Gemini. Speak and hear Gemini respond naturally."
     }
   }
 
   var isCloud: Bool {
-    if case .geminiCloud = self { return true }
+    switch self {
+    case .geminiCloud, .geminiLive: return true
+    default: return false
+    }
+  }
+
+  var isLive: Bool {
+    if case .geminiLive = self { return true }
     return false
   }
 }
@@ -52,7 +64,7 @@ struct ModelSelectionView: View {
 
   /// All model options: on-device models + Gemini cloud.
   private var allOptions: [ModelOption] {
-    GemmaModel.allModels.map { .local($0) } + [.geminiCloud]
+    GemmaModel.allModels.map { .local($0) } + [.geminiCloud, .geminiLive]
   }
 
   var body: some View {
@@ -64,8 +76,8 @@ struct ModelSelectionView: View {
         // Model selector
         modelSelector
 
-        // API key section (only shown for cloud model)
-        if selectedOption.isCloud {
+        // API key section (shown for cloud models)
+        if selectedOption.isCloud || selectedOption.isLive {
           apiKeySection
         }
 
@@ -208,7 +220,23 @@ struct ModelSelectionView: View {
               .font(.system(size: 16, weight: .semibold))
               .foregroundStyle(.primary)
 
-            if option.isCloud {
+            if option.isLive {
+              Text("Voice")
+                .font(.system(size: 10, weight: .bold))
+                .foregroundStyle(.white)
+                .padding(.horizontal, 6)
+                .padding(.vertical, 2)
+                .background(
+                  Capsule()
+                    .fill(
+                      LinearGradient(
+                        colors: [Color(hex: "9B72CB"), Color(hex: "D96570")],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                      )
+                    )
+                )
+            } else if option.isCloud {
               Text("Cloud")
                 .font(.system(size: 10, weight: .bold))
                 .foregroundStyle(.white)
@@ -246,7 +274,18 @@ struct ModelSelectionView: View {
 
   @ViewBuilder
   private func statusBadge(for option: ModelOption, downloadStatus: DownloadStatus?) -> some View {
-    if option.isCloud {
+    if option.isLive {
+      HStack(spacing: 4) {
+        Image(systemName: "waveform")
+          .font(.system(size: 10))
+        Text("Ready")
+          .font(.system(size: 11, weight: .semibold))
+      }
+      .foregroundStyle(Color(hex: "9B72CB"))
+      .padding(.horizontal, 8)
+      .padding(.vertical, 4)
+      .background(Capsule().fill(Color(hex: "9B72CB").opacity(0.12)))
+    } else if option.isCloud {
       HStack(spacing: 4) {
         Image(systemName: "bolt.fill")
           .font(.system(size: 10))
@@ -426,14 +465,14 @@ struct ModelSelectionView: View {
 
       // Start Chat button
       Button {
-        if case .geminiCloud = selectedOption, editingAPIKey != geminiAPIKey {
+        if selectedOption.isCloud, editingAPIKey != geminiAPIKey {
           geminiAPIKey = editingAPIKey
         }
         onStartChat(selectedOption)
       } label: {
         HStack {
-          Image(systemName: "message.fill")
-          Text("Start Chat")
+          Image(systemName: selectedOption.isLive ? "waveform" : "message.fill")
+          Text(selectedOption.isLive ? "Start Voice Chat" : "Start Chat")
         }
         .font(.system(size: 16, weight: .semibold))
         .foregroundStyle(.white)
@@ -442,21 +481,27 @@ struct ModelSelectionView: View {
         .background(
           LinearGradient(
             colors: canStartChat
-              ? [Color(hex: "4285F4"), Color(hex: "6C63FF")]
+              ? (selectedOption.isLive
+                ? [Color(hex: "9B72CB"), Color(hex: "D96570")]
+                : [Color(hex: "4285F4"), Color(hex: "6C63FF")])
               : [Color(.systemGray3), Color(.systemGray3)],
             startPoint: .leading,
             endPoint: .trailing
           )
         )
         .clipShape(RoundedRectangle(cornerRadius: 14))
-        .shadow(color: canStartChat ? Color(hex: "4285F4").opacity(0.2) : .clear, radius: 10, y: 4)
+        .shadow(
+          color: canStartChat
+            ? (selectedOption.isLive ? Color(hex: "9B72CB").opacity(0.2) : Color(hex: "4285F4").opacity(0.2))
+            : .clear,
+          radius: 10, y: 4)
       }
       .disabled(!canStartChat || isInitializing)
       .opacity((!canStartChat || isInitializing) ? 0.6 : 1)
 
       // Create Quiz button
       Button {
-        if case .geminiCloud = selectedOption, editingAPIKey != geminiAPIKey {
+        if selectedOption.isCloud, editingAPIKey != geminiAPIKey {
           geminiAPIKey = editingAPIKey
         }
         onCreateQuiz(selectedOption)
@@ -504,6 +549,8 @@ struct ModelSelectionView: View {
     case .local(let model):
       return downloader.status(for: model).isDownloaded
     case .geminiCloud:
+      return !editingAPIKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    case .geminiLive:
       return !editingAPIKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
   }

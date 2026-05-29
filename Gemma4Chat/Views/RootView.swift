@@ -7,6 +7,7 @@ struct RootView: View {
   @State private var quizViewModel: QuizViewModel?
   @State private var geminiChatViewModel: GeminiChatViewModel?
   @State private var geminiQuizViewModel: GeminiQuizViewModel?
+  @State private var liveChatViewModel: LiveChatViewModel?
   @State private var selectedModel: GemmaModel?
   @State private var selectedModelOption: ModelOption?
   
@@ -14,6 +15,7 @@ struct RootView: View {
   @State private var showQuiz = false
   @State private var showGeminiChat = false
   @State private var showGeminiQuiz = false
+  @State private var showLiveChat = false
   @State private var showCreationSheet = false
   @State private var isInitializing = false
   @State private var pastedText = ""
@@ -75,6 +77,16 @@ struct RootView: View {
           }
         )
         .transition(.move(edge: .trailing))
+      } else if showLiveChat, let liveVM = liveChatViewModel {
+        LiveChatView(
+          viewModel: liveVM,
+          onBack: {
+            withAnimation {
+              showLiveChat = false
+            }
+          }
+        )
+        .transition(.move(edge: .trailing))
       } else {
         ModelSelectionView(
           downloader: modelDownloader,
@@ -117,6 +129,8 @@ struct RootView: View {
       selectModel(model)
     case .geminiCloud:
       selectGemini(apiKey: geminiAPIKey)
+    case .geminiLive:
+      selectGeminiLive(apiKey: geminiAPIKey)
     }
   }
 
@@ -145,6 +159,14 @@ struct RootView: View {
     }
   }
 
+  private func selectGeminiLive(apiKey: String) {
+    let vm = LiveChatViewModel(apiKey: apiKey)
+    liveChatViewModel = vm
+    withAnimation {
+      showLiveChat = true
+    }
+  }
+
   // MARK: - Create Quiz
 
   private func handleCreateQuiz(_ option: ModelOption, text: String) {
@@ -152,6 +174,9 @@ struct RootView: View {
     case .local(let model):
       startLocalQuizFlow(model: model, text: text)
     case .geminiCloud:
+      startGeminiQuizFlow(text: text)
+    case .geminiLive:
+      // Live voice mode doesn't support quiz — use Gemini Cloud as fallback
       startGeminiQuizFlow(text: text)
     }
   }

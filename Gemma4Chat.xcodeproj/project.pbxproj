@@ -7,43 +7,49 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		083829FE4EAF558B67602B86 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7715BBBADD4FDCE79A0E5DD1 /* AudioPlayer.swift */; };
 		0CBFFFD267C0CE615B7EC1D6 /* Engine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C23CBC0E24A72AFF6E4B9C7 /* Engine.swift */; };
 		12BD65713AEE957321F6D066 /* Benchmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C877B4F4C4DADFAF75D6207 /* Benchmark.swift */; };
+		2176A2B98C4C38F218C70BD8 /* GeminiLiveSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8D97D86EABABF8F03A4F77 /* GeminiLiveSession.swift */; };
 		2AF6AD3276C176C5DC9297D7 /* ModelSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3433D975BEA35489B4294FAC /* ModelSelectionView.swift */; };
 		3477E4B5F96F2C5A01810909 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEB4FC3736E443298416AD2 /* Conversation.swift */; };
+		34DCB3D4ADBE59A3ACFEBCB4 /* Secrets.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B485C1AC23EA29E7D078FA6 /* Secrets.json */; };
 		35DD102E9015D40AB117A2F4 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C627A89312DCF1A421821662 /* ChatMessage.swift */; };
 		46DF132DFAF31DB4D143A222 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52EBA4790ED2EABE41DD0BA /* View+Extensions.swift */; };
 		504FC9DBB11203E10EB196D8 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88ECA53D10F035C96345C242 /* Message.swift */; };
+		5109167215B8061EF78D58BB /* GeminiAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C87F9C7559C4BCFC62DEAC /* GeminiAPIService.swift */; };
 		548A96E9FE48115A2F0C8FC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93A5E1F75E3F48B2A8A38D78 /* Assets.xcassets */; };
-		A1F3C9D82B4E6A9F0D1E7B3C /* Secrets.json in Resources */ = {isa = PBXBuildFile; fileRef = F7A2B8E41C5D3F0A9E6B4D2F /* Secrets.json */; };
 		5D98BE1F90D12F24B4C7B225 /* Capabilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5FA2E5179492AF43A32CA /* Capabilities.swift */; };
 		5EAD3B93348E9619E571F88A /* LiteRTLMError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA96A76C4D0CF179A828D577 /* LiteRTLMError.swift */; };
+		63EC61256284F6A4F33C79CF /* GeminiQuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC303749E009085409DDE46 /* GeminiQuizViewModel.swift */; };
+		678C82E3A1A91FD4127B8C1F /* LiveChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE686FA96C50918CE8A3C60F /* LiveChatViewModel.swift */; };
 		69C84A6308D48FCE5D9CC434 /* CLiteRTLM.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A6E31C528149239E252FECB2 /* CLiteRTLM.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		727359A83CFCCE93A8B38CFF /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCFE9093E91199A7FE8B2A6 /* Config.swift */; };
 		8BE9732812100AD309804373 /* QuizQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D789FF3FDDD023CDC2D33B7 /* QuizQuestion.swift */; };
 		8FB06D77773F7321360505A1 /* LLMInferenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44705026332DA054284206D2 /* LLMInferenceService.swift */; };
 		930FAAC407AA7823664A98B1 /* Tool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1017BDAEF8AEBB4B5931114F /* Tool.swift */; };
+		974453601D71AA489FB509D6 /* GeminiQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD98C66157E0ED67409A2AE8 /* GeminiQuizView.swift */; };
+		98F3AC3C6741E95C90FC4E29 /* GeminiFlashCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA288F686E42481230050764 /* GeminiFlashCard.swift */; };
+		AFF442FA9B79841FA919753F /* LiveChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2EF7F374223EBC075F49CC /* LiveChatView.swift */; };
 		B0F1AE7BDA7E63BBEBBE793D /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DA5819BB29F8FBA18098C6 /* ChatViewModel.swift */; };
 		B2C57179CE14F1F56A1D8DC4 /* CLiteRTLM.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6E31C528149239E252FECB2 /* CLiteRTLM.xcframework */; };
 		B6E10703248F9FAA5174C9ED /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB28EDF8935C24CCD363175 /* ChatView.swift */; };
 		B8F7DA8795DAB205A166645F /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA29F5A98C09D3B419AFEC7 /* MessageBubble.swift */; };
 		B9D2059DA5ED6C33EAD4758B /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460AA6F9D8A359A4CE0BFAC7 /* Color+Hex.swift */; };
 		C0446E3B4C8CFB200BFA1488 /* Gemma4ChatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22FA2905D5B44CC9BB17458 /* Gemma4ChatApp.swift */; };
+		C62A5D9E529F3F9B3FEDF6BE /* AudioVisualizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E86B5545DA8AE4FD216AEF /* AudioVisualizerView.swift */; };
 		CF66467DDFEBA78EA8CD97EF /* ModelDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0216262979B7A25C90D186 /* ModelDownloader.swift */; };
 		D48B6B1BA4A734006D121CA7 /* QuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4F7A2534788FB9E0969D6D /* QuizViewModel.swift */; };
 		D662E2A7F31B39880434A90B /* QuizCreationSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B310162F27B1A324B7B6FBA /* QuizCreationSheet.swift */; };
 		D824E891AC9FC46B9FBBBD9B /* GemmaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFD292CAD62D806558685B1 /* GemmaModel.swift */; };
 		D8829F813B7774F3E8943E83 /* InferenceStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2C6D55CFE1B01EF045C191 /* InferenceStats.swift */; };
 		E67030A5C8FD0826799E15C9 /* ExperimentalFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F71E496B14FA6979D10A68 /* ExperimentalFlags.swift */; };
+		EB27AE57F326C6F072769410 /* GeminiChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C547A45738DD632E674E455 /* GeminiChatViewModel.swift */; };
+		EF7B40D78F29226A0C771B2E /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD22A129751F9C3185703079 /* AudioRecorder.swift */; };
+		F63C3B5D3C69CD0C63F921DE /* GeminiChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7191D74AC5B1437C229ABDA /* GeminiChatView.swift */; };
 		FCE81FAAABCE6D5025823AFE /* ToolManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7FCF5AE48F4594D69F4F4FA /* ToolManager.swift */; };
 		FE3CDB19925EA83890BC9F5F /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44BE0031DC328508E3772D4 /* RootView.swift */; };
 		FFCEB21712FD7854DE828744 /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4365B6B48D14125C7DD76505 /* QuizView.swift */; };
-		A2B3C4D5E6F70819A3B4C5D6 /* GeminiAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E4F5A6B7C80921D4E5F6A7 /* GeminiAPIService.swift */; };
-		B3C4D5E6F708192AB4C5D6E7 /* GeminiChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F5A6B7C809213BE5F6A7B8 /* GeminiChatViewModel.swift */; };
-		C4D5E6F70819234BC5D6E7F8 /* GeminiChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A6B7C809214CD6E7F8A9B0 /* GeminiChatView.swift */; };
-		D5E6F708192345CC6D7E8F9A /* GeminiFlashCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B7C809215DE7F8A9B0C1D2 /* GeminiFlashCard.swift */; };
-		E6F708193456DC7D8E9FA0B1 /* GeminiQuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C809216EF8A9B0C1D2E3F4 /* GeminiQuizViewModel.swift */; };
-		F70819345678ED8E9FA0B1C2 /* GeminiQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C809217FA9B0C1D2E3F4A5B6 /* GeminiQuizView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -66,35 +72,41 @@
 		1C23CBC0E24A72AFF6E4B9C7 /* Engine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine.swift; sourceTree = "<group>"; };
 		26DA5819BB29F8FBA18098C6 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		2AA29F5A98C09D3B419AFEC7 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
+		2C547A45738DD632E674E455 /* GeminiChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiChatViewModel.swift; sourceTree = "<group>"; };
 		2E4F7A2534788FB9E0969D6D /* QuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewModel.swift; sourceTree = "<group>"; };
 		3433D975BEA35489B4294FAC /* ModelSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelSelectionView.swift; sourceTree = "<group>"; };
 		3B310162F27B1A324B7B6FBA /* QuizCreationSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizCreationSheet.swift; sourceTree = "<group>"; };
 		3FFD292CAD62D806558685B1 /* GemmaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GemmaModel.swift; sourceTree = "<group>"; };
 		4365B6B48D14125C7DD76505 /* QuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizView.swift; sourceTree = "<group>"; };
 		44705026332DA054284206D2 /* LLMInferenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMInferenceService.swift; sourceTree = "<group>"; };
-		D3E4F5A6B7C80921D4E5F6A7 /* GeminiAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiAPIService.swift; sourceTree = "<group>"; };
-		E4F5A6B7C809213BE5F6A7B8 /* GeminiChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiChatViewModel.swift; sourceTree = "<group>"; };
-		F5A6B7C809214CD6E7F8A9B0 /* GeminiChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiChatView.swift; sourceTree = "<group>"; };
-		A6B7C809215DE7F8A9B0C1D2 /* GeminiFlashCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiFlashCard.swift; sourceTree = "<group>"; };
-		B7C809216EF8A9B0C1D2E3F4 /* GeminiQuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiQuizViewModel.swift; sourceTree = "<group>"; };
-		C809217FA9B0C1D2E3F4A5B6 /* GeminiQuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiQuizView.swift; sourceTree = "<group>"; };
 		460AA6F9D8A359A4CE0BFAC7 /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
 		4AEB4FC3736E443298416AD2 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		76F71E496B14FA6979D10A68 /* ExperimentalFlags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExperimentalFlags.swift; sourceTree = "<group>"; };
+		7715BBBADD4FDCE79A0E5DD1 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
+		85C87F9C7559C4BCFC62DEAC /* GeminiAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiAPIService.swift; sourceTree = "<group>"; };
 		88ECA53D10F035C96345C242 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		8BD5FA2E5179492AF43A32CA /* Capabilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Capabilities.swift; sourceTree = "<group>"; };
 		93A5E1F75E3F48B2A8A38D78 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F7A2B8E41C5D3F0A9E6B4D2F /* Secrets.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Secrets.json; sourceTree = "<group>"; };
+		9B485C1AC23EA29E7D078FA6 /* Secrets.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Secrets.json; sourceTree = "<group>"; };
 		9C877B4F4C4DADFAF75D6207 /* Benchmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Benchmark.swift; sourceTree = "<group>"; };
 		9D789FF3FDDD023CDC2D33B7 /* QuizQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizQuestion.swift; sourceTree = "<group>"; };
 		9FCFE9093E91199A7FE8B2A6 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		A0289FC793958CA2D294729F /* Gemma4Chat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gemma4Chat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5E86B5545DA8AE4FD216AEF /* AudioVisualizerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioVisualizerView.swift; sourceTree = "<group>"; };
 		A6E31C528149239E252FECB2 /* CLiteRTLM.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CLiteRTLM.xcframework; path = Frameworks/CLiteRTLM.xcframework; sourceTree = "<group>"; };
 		BB2C6D55CFE1B01EF045C191 /* InferenceStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InferenceStats.swift; sourceTree = "<group>"; };
+		BB8D97D86EABABF8F03A4F77 /* GeminiLiveSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiLiveSession.swift; sourceTree = "<group>"; };
+		BD2EF7F374223EBC075F49CC /* LiveChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveChatView.swift; sourceTree = "<group>"; };
+		BD98C66157E0ED67409A2AE8 /* GeminiQuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiQuizView.swift; sourceTree = "<group>"; };
+		BE686FA96C50918CE8A3C60F /* LiveChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveChatViewModel.swift; sourceTree = "<group>"; };
 		C52EBA4790ED2EABE41DD0BA /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		C627A89312DCF1A421821662 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
+		CA288F686E42481230050764 /* GeminiFlashCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiFlashCard.swift; sourceTree = "<group>"; };
 		CA96A76C4D0CF179A828D577 /* LiteRTLMError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiteRTLMError.swift; sourceTree = "<group>"; };
+		CD22A129751F9C3185703079 /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
+		CFC303749E009085409DDE46 /* GeminiQuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiQuizViewModel.swift; sourceTree = "<group>"; };
 		D22FA2905D5B44CC9BB17458 /* Gemma4ChatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gemma4ChatApp.swift; sourceTree = "<group>"; };
+		D7191D74AC5B1437C229ABDA /* GeminiChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiChatView.swift; sourceTree = "<group>"; };
 		D7FCF5AE48F4594D69F4F4FA /* ToolManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolManager.swift; sourceTree = "<group>"; };
 		E44BE0031DC328508E3772D4 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		FE0216262979B7A25C90D186 /* ModelDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDownloader.swift; sourceTree = "<group>"; };
@@ -115,7 +127,10 @@
 		2AEBBB52C43D831D4D9648D6 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				D3E4F5A6B7C80921D4E5F6A7 /* GeminiAPIService.swift */,
+				7715BBBADD4FDCE79A0E5DD1 /* AudioPlayer.swift */,
+				CD22A129751F9C3185703079 /* AudioRecorder.swift */,
+				85C87F9C7559C4BCFC62DEAC /* GeminiAPIService.swift */,
+				BB8D97D86EABABF8F03A4F77 /* GeminiLiveSession.swift */,
 				44705026332DA054284206D2 /* LLMInferenceService.swift */,
 				FE0216262979B7A25C90D186 /* ModelDownloader.swift */,
 			);
@@ -151,8 +166,9 @@
 			isa = PBXGroup;
 			children = (
 				26DA5819BB29F8FBA18098C6 /* ChatViewModel.swift */,
-				E4F5A6B7C809213BE5F6A7B8 /* GeminiChatViewModel.swift */,
-				B7C809216EF8A9B0C1D2E3F4 /* GeminiQuizViewModel.swift */,
+				2C547A45738DD632E674E455 /* GeminiChatViewModel.swift */,
+				CFC303749E009085409DDE46 /* GeminiQuizViewModel.swift */,
+				BE686FA96C50918CE8A3C60F /* LiveChatViewModel.swift */,
 				2E4F7A2534788FB9E0969D6D /* QuizViewModel.swift */,
 			);
 			path = ViewModels;
@@ -161,10 +177,12 @@
 		6F23B119C10A80E6C275D79B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A5E86B5545DA8AE4FD216AEF /* AudioVisualizerView.swift */,
 				0EB28EDF8935C24CCD363175 /* ChatView.swift */,
-				F5A6B7C809214CD6E7F8A9B0 /* GeminiChatView.swift */,
-				A6B7C809215DE7F8A9B0C1D2 /* GeminiFlashCard.swift */,
-				C809217FA9B0C1D2E3F4A5B6 /* GeminiQuizView.swift */,
+				D7191D74AC5B1437C229ABDA /* GeminiChatView.swift */,
+				CA288F686E42481230050764 /* GeminiFlashCard.swift */,
+				BD98C66157E0ED67409A2AE8 /* GeminiQuizView.swift */,
+				BD2EF7F374223EBC075F49CC /* LiveChatView.swift */,
 				2AA29F5A98C09D3B419AFEC7 /* MessageBubble.swift */,
 				3433D975BEA35489B4294FAC /* ModelSelectionView.swift */,
 				3B310162F27B1A324B7B6FBA /* QuizCreationSheet.swift */,
@@ -216,7 +234,7 @@
 			children = (
 				93A5E1F75E3F48B2A8A38D78 /* Assets.xcassets */,
 				D22FA2905D5B44CC9BB17458 /* Gemma4ChatApp.swift */,
-				F7A2B8E41C5D3F0A9E6B4D2F /* Secrets.json */,
+				9B485C1AC23EA29E7D078FA6 /* Secrets.json */,
 				A1B22D685396AD84DA312A3F /* Extensions */,
 				8F0B6C2BD20845177707C1BB /* LiteRTLM */,
 				9EF2CDFB9D4BCEB720AC837A /* Models */,
@@ -284,7 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				548A96E9FE48115A2F0C8FC8 /* Assets.xcassets in Resources */,
-				A1F3C9D82B4E6A9F0D1E7B3C /* Secrets.json in Resources */,
+				34DCB3D4ADBE59A3ACFEBCB4 /* Secrets.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,6 +313,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				083829FE4EAF558B67602B86 /* AudioPlayer.swift in Sources */,
+				EF7B40D78F29226A0C771B2E /* AudioRecorder.swift in Sources */,
+				C62A5D9E529F3F9B3FEDF6BE /* AudioVisualizerView.swift in Sources */,
 				12BD65713AEE957321F6D066 /* Benchmark.swift in Sources */,
 				5D98BE1F90D12F24B4C7B225 /* Capabilities.swift in Sources */,
 				35DD102E9015D40AB117A2F4 /* ChatMessage.swift in Sources */,
@@ -305,17 +326,20 @@
 				3477E4B5F96F2C5A01810909 /* Conversation.swift in Sources */,
 				0CBFFFD267C0CE615B7EC1D6 /* Engine.swift in Sources */,
 				E67030A5C8FD0826799E15C9 /* ExperimentalFlags.swift in Sources */,
+				5109167215B8061EF78D58BB /* GeminiAPIService.swift in Sources */,
+				F63C3B5D3C69CD0C63F921DE /* GeminiChatView.swift in Sources */,
+				EB27AE57F326C6F072769410 /* GeminiChatViewModel.swift in Sources */,
+				98F3AC3C6741E95C90FC4E29 /* GeminiFlashCard.swift in Sources */,
+				2176A2B98C4C38F218C70BD8 /* GeminiLiveSession.swift in Sources */,
+				974453601D71AA489FB509D6 /* GeminiQuizView.swift in Sources */,
+				63EC61256284F6A4F33C79CF /* GeminiQuizViewModel.swift in Sources */,
 				C0446E3B4C8CFB200BFA1488 /* Gemma4ChatApp.swift in Sources */,
-				A2B3C4D5E6F70819A3B4C5D6 /* GeminiAPIService.swift in Sources */,
-				C4D5E6F70819234BC5D6E7F8 /* GeminiChatView.swift in Sources */,
-				B3C4D5E6F708192AB4C5D6E7 /* GeminiChatViewModel.swift in Sources */,
-				D5E6F708192345CC6D7E8F9A /* GeminiFlashCard.swift in Sources */,
-				F70819345678ED8E9FA0B1C2 /* GeminiQuizView.swift in Sources */,
-				E6F708193456DC7D8E9FA0B1 /* GeminiQuizViewModel.swift in Sources */,
 				D824E891AC9FC46B9FBBBD9B /* GemmaModel.swift in Sources */,
 				D8829F813B7774F3E8943E83 /* InferenceStats.swift in Sources */,
 				8FB06D77773F7321360505A1 /* LLMInferenceService.swift in Sources */,
 				5EAD3B93348E9619E571F88A /* LiteRTLMError.swift in Sources */,
+				AFF442FA9B79841FA919753F /* LiveChatView.swift in Sources */,
+				678C82E3A1A91FD4127B8C1F /* LiveChatViewModel.swift in Sources */,
 				504FC9DBB11203E10EB196D8 /* Message.swift in Sources */,
 				B8F7DA8795DAB205A166645F /* MessageBubble.swift in Sources */,
 				CF66467DDFEBA78EA8CD97EF /* ModelDownloader.swift in Sources */,
@@ -405,6 +429,7 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Gemma4Chat;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Gemma4Chat needs access to your microphone for voice conversations with Gemini Live.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -442,6 +467,7 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Gemma4Chat;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Gemma4Chat needs access to your microphone for voice conversations with Gemini Live.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				LD_RUNPATH_SEARCH_PATHS = (

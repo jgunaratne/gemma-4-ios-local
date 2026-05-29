@@ -23,6 +23,7 @@ targets:
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
         SWIFT_VERSION: "5.0"
         GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_NSMicrophoneUsageDescription: "Gemma4Chat needs access to your microphone for voice conversations with Gemini Live."
         CODE_SIGN_STYLE: Automatic
         OTHER_LDFLAGS: ["-Xlinker", "-all_load", "$(inherited)"]
       configs:
