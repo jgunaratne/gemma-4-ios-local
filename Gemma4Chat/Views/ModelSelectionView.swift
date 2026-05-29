@@ -747,7 +747,7 @@ struct ModelSelectionView: View {
     Task:
     1. Analyze the speakers in the text below. Identify their accent, speech style, speed, specific vocabulary/language choices, and their overall personality traits.
     2. Design a character persona who mirrors this exact same style of accent, speech, language, and personality of the speakers in the podcast/context.
-    3. Select the single best-fitting voice for this persona from the following 8 prebuilt Gemini voices based on gender, energy, and tone requirements:
+    3. Select the single best-fitting voice for this persona from the following 7 prebuilt Gemini voices based on gender, energy, and tone requirements:
        - Puck: Male, clear, friendly, standard professional (neutral)
        - Charon: Male, deep, slow, stoic, resonant (mature, authoritative)
        - Kore: Female, bright, energetic, youthful, friendly
@@ -755,7 +755,6 @@ struct ModelSelectionView: View {
        - Aoede: Female, warm, clear, professional, natural
        - Leda: Female, warm, friendly, mature, motherly
        - Orus: Male, warm, confident, friendly
-       - Vale: Male, calm, warm, conversational
     4. Write a detailed, concise 1-2 paragraph character description. Include details like their profession, age, gender/accent, emotional tone, speech pacing, vocabulary style (e.g., uses formal wording, friendly contractions, jargon), and specific guidelines for how they should speak.
 
     Content:

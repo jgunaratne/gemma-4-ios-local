@@ -146,11 +146,16 @@ final class LiveChatViewModel {
 
     session.onAudioTurnStarted = { [weak self] in
       self?.isSpeaking = true
+      // Pause mic sending while model speaks — prevents background noise
+      // (e.g. HVAC, fans) from triggering false barge-ins on the server.
+      self?.recorder.isSendingPaused = true
     }
 
     session.onTurnComplete = { [weak self] in
       guard let self else { return }
-      self.isSpeaking = false
+      // Resume mic sending now that the model has finished speaking
+      self.recorder.isSendingPaused = false
+      // isSpeaking will be set to false by the player's onPlaybackFinished
       
       // Generate fresh suggestions based on the new state of the conversation
       self.generateSuggestedQuestions()
@@ -162,7 +167,7 @@ final class LiveChatViewModel {
       guard let self else { return }
       self.player.flush()
       self.isSpeaking = false
-      self.addTranscript(.system, "⚡ Interrupted")
+      self.recorder.isSendingPaused = false
     }
 
     session.onError = { [weak self] error in

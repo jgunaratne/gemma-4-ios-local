@@ -15,7 +15,6 @@ enum GeminiVoice: String, CaseIterable, Sendable {
   case aoede = "Aoede"
   case leda = "Leda"
   case orus = "Orus"
-  case vale = "Vale"
 
   var displayName: String { rawValue }
 }
