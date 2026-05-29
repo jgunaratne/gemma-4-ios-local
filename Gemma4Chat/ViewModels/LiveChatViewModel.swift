@@ -32,8 +32,15 @@ final class LiveChatViewModel {
 
   // MARK: - Init
 
-  init(apiKey: String) {
+  init(apiKey: String, context: String = "") {
     self.apiKey = apiKey
+
+    // Append user-provided context to the session's system instruction
+    let trimmedContext = context.trimmingCharacters(in: .whitespacesAndNewlines)
+    if !trimmedContext.isEmpty {
+      session.systemInstruction += "\n\nThe user has provided the following context for this conversation. Use it to inform your responses:\n\n\(trimmedContext)"
+    }
+
     wireCallbacks()
   }
 

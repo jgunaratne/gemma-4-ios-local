@@ -91,8 +91,8 @@ struct RootView: View {
         ModelSelectionView(
           downloader: modelDownloader,
           isInitializing: isInitializing,
-          onStartChat: { option in
-            handleStartChat(option)
+          onStartChat: { option, context in
+            handleStartChat(option, context: context)
           },
           onCreateQuiz: { option in
             selectedModelOption = option
@@ -123,14 +123,14 @@ struct RootView: View {
 
   // MARK: - Start Chat
 
-  private func handleStartChat(_ option: ModelOption) {
+  private func handleStartChat(_ option: ModelOption, context: String) {
     switch option {
     case .local(let model):
       selectModel(model)
     case .geminiCloud:
-      selectGemini(apiKey: geminiAPIKey)
+      selectGemini(apiKey: geminiAPIKey, context: context)
     case .geminiLive:
-      selectGeminiLive(apiKey: geminiAPIKey)
+      selectGeminiLive(apiKey: geminiAPIKey, context: context)
     }
   }
 
@@ -151,16 +151,16 @@ struct RootView: View {
     }
   }
 
-  private func selectGemini(apiKey: String) {
-    let vm = GeminiChatViewModel(apiKey: apiKey)
+  private func selectGemini(apiKey: String, context: String) {
+    let vm = GeminiChatViewModel(apiKey: apiKey, context: context)
     geminiChatViewModel = vm
     withAnimation {
       showGeminiChat = true
     }
   }
 
-  private func selectGeminiLive(apiKey: String) {
-    let vm = LiveChatViewModel(apiKey: apiKey)
+  private func selectGeminiLive(apiKey: String, context: String) {
+    let vm = LiveChatViewModel(apiKey: apiKey, context: context)
     liveChatViewModel = vm
     withAnimation {
       showLiveChat = true

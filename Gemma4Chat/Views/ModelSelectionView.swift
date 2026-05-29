@@ -54,13 +54,14 @@ enum ModelOption: Hashable, Identifiable {
 struct ModelSelectionView: View {
   @Bindable var downloader: ModelDownloader
   let isInitializing: Bool
-  let onStartChat: (ModelOption) -> Void
+  let onStartChat: (ModelOption, String) -> Void
   let onCreateQuiz: (ModelOption) -> Void
 
   @AppStorage("geminiAPIKey") private var geminiAPIKey: String = ""
   @State private var editingAPIKey: String = ""
   @State private var isAPIKeyVisible: Bool = false
   @State private var selectedOption: ModelOption = .local(.gemma4_e4b)
+  @State private var contextText: String = ""
 
   /// All model options: on-device models + Gemini cloud.
   private var allOptions: [ModelOption] {
@@ -468,7 +469,7 @@ struct ModelSelectionView: View {
         if selectedOption.isCloud, editingAPIKey != geminiAPIKey {
           geminiAPIKey = editingAPIKey
         }
-        onStartChat(selectedOption)
+        onStartChat(selectedOption, contextText)
       } label: {
         HStack {
           Image(systemName: selectedOption.isLive ? "waveform" : "message.fill")
@@ -524,6 +525,9 @@ struct ModelSelectionView: View {
       .disabled(!canStartChat || isInitializing)
       .opacity((!canStartChat || isInitializing) ? 0.6 : 1)
 
+      // Context input
+      contextSection
+
       // Delete button (only for downloaded local models)
       if case .local(let model) = selectedOption, downloader.status(for: model).isDownloaded {
         Button {
@@ -539,6 +543,73 @@ struct ModelSelectionView: View {
         .padding(.top, 4)
       }
     }
+  }
+
+  // MARK: - Context Section
+
+  private var contextSection: some View {
+    VStack(alignment: .leading, spacing: 10) {
+      HStack {
+        Image(systemName: "doc.text.fill")
+          .font(.system(size: 14))
+          .foregroundStyle(Color(hex: "4285F4"))
+        Text("Context")
+          .font(.system(size: 14, weight: .semibold))
+          .foregroundStyle(.primary)
+        Spacer()
+        if !contextText.isEmpty {
+          Button {
+            contextText = ""
+          } label: {
+            Text("Clear")
+              .font(.system(size: 12, weight: .medium))
+              .foregroundStyle(.red)
+          }
+        }
+      }
+
+      Text("Paste text (e.g. a podcast transcript, article, or notes) to use as context for your conversation.")
+        .font(.system(size: 12))
+        .foregroundStyle(.secondary)
+
+      TextEditor(text: $contextText)
+        .font(.system(size: 14))
+        .scrollContentBackground(.hidden)
+        .frame(minHeight: 80, maxHeight: 160)
+        .padding(10)
+        .background(
+          RoundedRectangle(cornerRadius: 12)
+            .fill(Color(.secondarySystemBackground))
+        )
+        .overlay(
+          Group {
+            if contextText.isEmpty {
+              Text("Paste your context here…")
+                .font(.system(size: 14))
+                .foregroundStyle(.quaternary)
+                .padding(.leading, 14)
+                .padding(.top, 18)
+            }
+          },
+          alignment: .topLeading
+        )
+
+      if !contextText.isEmpty {
+        HStack(spacing: 4) {
+          Image(systemName: "checkmark.circle.fill")
+            .font(.system(size: 11))
+            .foregroundStyle(.green)
+          Text("\(contextText.count.formatted()) characters")
+            .font(.system(size: 11, weight: .medium))
+            .foregroundStyle(.secondary)
+        }
+      }
+    }
+    .padding(16)
+    .background(
+      RoundedRectangle(cornerRadius: 16)
+        .fill(Color(.secondarySystemBackground))
+    )
   }
 
   // MARK: - Helpers

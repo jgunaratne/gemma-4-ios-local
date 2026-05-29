@@ -7,14 +7,16 @@ private let logger = Logger(subsystem: "Gemma4Chat", category: "GeminiAPI")
 class GeminiAPIService {
   private let apiKey: String
   private let modelId: String
+  private let systemInstruction: String?
 
   /// Base URL for the Gemini generative language API.
   private static let baseURL = "https://generativelanguage.googleapis.com/v1beta/models"
 
-  init(apiKey: String, modelId: String = "gemini-3.5-flash") {
+  init(apiKey: String, modelId: String = "gemini-3.5-flash", systemInstruction: String? = nil) {
     self.apiKey = apiKey
     self.modelId = modelId
-    logger.info("GeminiAPIService initialized for model: \(modelId)")
+    self.systemInstruction = systemInstruction
+    logger.info("GeminiAPIService initialized for model: \(modelId), hasContext: \(systemInstruction != nil)")
   }
 
   /// Stream response tokens given conversation history.
@@ -44,7 +46,12 @@ class GeminiAPIService {
               "parts": [["text": content]],
             ]
           }
-          let body: [String: Any] = ["contents": contents]
+          var body: [String: Any] = ["contents": contents]
+          if let systemInstruction = self.systemInstruction {
+            body["systemInstruction"] = [
+              "parts": [["text": systemInstruction]]
+            ]
+          }
           request.httpBody = try JSONSerialization.data(withJSONObject: body)
           print("🌐 [GeminiAPI] Request body: \(String(data: request.httpBody!, encoding: .utf8) ?? "nil")")
 
