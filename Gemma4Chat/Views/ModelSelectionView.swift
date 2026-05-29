@@ -61,7 +61,7 @@ struct ModelSelectionView: View {
   @State private var editingAPIKey: String = ""
   @State private var isAPIKeyVisible: Bool = false
   @State private var selectedOption: ModelOption = .local(.gemma4_e4b)
-  @State private var contextText: String = ""
+  @AppStorage("contextText") private var contextText: String = ""
 
   /// All model options: on-device models + Gemini cloud.
   private var allOptions: [ModelOption] {
