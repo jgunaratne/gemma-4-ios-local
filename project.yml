@@ -1,0 +1,35 @@
+name: Gemma4Chat
+options:
+  bundleIdPrefix: com.google
+  deploymentTarget:
+    iOS: "17.0"
+  xcodeVersion: "16.0"
+  createIntermediateGroups: true
+  defaultConfig: Release
+
+targets:
+  Gemma4Chat:
+    type: application
+    platform: iOS
+    sources:
+      - path: Gemma4Chat
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.google.Gemma4Chat
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: 1
+        INFOPLIST_KEY_CFBundleDisplayName: "Gemma4Chat"
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        SWIFT_VERSION: "5.0"
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGN_STYLE: Automatic
+        OTHER_LDFLAGS: ["-Xlinker", "-all_load", "$(inherited)"]
+      configs:
+        Debug:
+          SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEBUG
+        Release:
+          SWIFT_COMPILATION_MODE: wholemodule
+    dependencies:
+      - framework: Frameworks/CLiteRTLM.xcframework
+        embed: true

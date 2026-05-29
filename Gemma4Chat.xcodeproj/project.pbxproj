@@ -1,0 +1,526 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0CBFFFD267C0CE615B7EC1D6 /* Engine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C23CBC0E24A72AFF6E4B9C7 /* Engine.swift */; };
+		12BD65713AEE957321F6D066 /* Benchmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C877B4F4C4DADFAF75D6207 /* Benchmark.swift */; };
+		2AF6AD3276C176C5DC9297D7 /* ModelSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3433D975BEA35489B4294FAC /* ModelSelectionView.swift */; };
+		3477E4B5F96F2C5A01810909 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEB4FC3736E443298416AD2 /* Conversation.swift */; };
+		35DD102E9015D40AB117A2F4 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C627A89312DCF1A421821662 /* ChatMessage.swift */; };
+		46DF132DFAF31DB4D143A222 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52EBA4790ED2EABE41DD0BA /* View+Extensions.swift */; };
+		504FC9DBB11203E10EB196D8 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88ECA53D10F035C96345C242 /* Message.swift */; };
+		548A96E9FE48115A2F0C8FC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93A5E1F75E3F48B2A8A38D78 /* Assets.xcassets */; };
+		5D98BE1F90D12F24B4C7B225 /* Capabilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5FA2E5179492AF43A32CA /* Capabilities.swift */; };
+		5EAD3B93348E9619E571F88A /* LiteRTLMError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA96A76C4D0CF179A828D577 /* LiteRTLMError.swift */; };
+		69C84A6308D48FCE5D9CC434 /* CLiteRTLM.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A6E31C528149239E252FECB2 /* CLiteRTLM.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		727359A83CFCCE93A8B38CFF /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCFE9093E91199A7FE8B2A6 /* Config.swift */; };
+		8BE9732812100AD309804373 /* QuizQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D789FF3FDDD023CDC2D33B7 /* QuizQuestion.swift */; };
+		8FB06D77773F7321360505A1 /* LLMInferenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44705026332DA054284206D2 /* LLMInferenceService.swift */; };
+		930FAAC407AA7823664A98B1 /* Tool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1017BDAEF8AEBB4B5931114F /* Tool.swift */; };
+		B0F1AE7BDA7E63BBEBBE793D /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DA5819BB29F8FBA18098C6 /* ChatViewModel.swift */; };
+		B2C57179CE14F1F56A1D8DC4 /* CLiteRTLM.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6E31C528149239E252FECB2 /* CLiteRTLM.xcframework */; };
+		B6E10703248F9FAA5174C9ED /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB28EDF8935C24CCD363175 /* ChatView.swift */; };
+		B8F7DA8795DAB205A166645F /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA29F5A98C09D3B419AFEC7 /* MessageBubble.swift */; };
+		B9D2059DA5ED6C33EAD4758B /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460AA6F9D8A359A4CE0BFAC7 /* Color+Hex.swift */; };
+		C0446E3B4C8CFB200BFA1488 /* Gemma4ChatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22FA2905D5B44CC9BB17458 /* Gemma4ChatApp.swift */; };
+		CF66467DDFEBA78EA8CD97EF /* ModelDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0216262979B7A25C90D186 /* ModelDownloader.swift */; };
+		D48B6B1BA4A734006D121CA7 /* QuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4F7A2534788FB9E0969D6D /* QuizViewModel.swift */; };
+		D662E2A7F31B39880434A90B /* QuizCreationSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B310162F27B1A324B7B6FBA /* QuizCreationSheet.swift */; };
+		D824E891AC9FC46B9FBBBD9B /* GemmaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFD292CAD62D806558685B1 /* GemmaModel.swift */; };
+		D8829F813B7774F3E8943E83 /* InferenceStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2C6D55CFE1B01EF045C191 /* InferenceStats.swift */; };
+		E67030A5C8FD0826799E15C9 /* ExperimentalFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F71E496B14FA6979D10A68 /* ExperimentalFlags.swift */; };
+		FCE81FAAABCE6D5025823AFE /* ToolManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7FCF5AE48F4594D69F4F4FA /* ToolManager.swift */; };
+		FE3CDB19925EA83890BC9F5F /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44BE0031DC328508E3772D4 /* RootView.swift */; };
+		FFCEB21712FD7854DE828744 /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4365B6B48D14125C7DD76505 /* QuizView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1C7D3CBCFD61C6EC05E7E1E5 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				69C84A6308D48FCE5D9CC434 /* CLiteRTLM.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0EB28EDF8935C24CCD363175 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		1017BDAEF8AEBB4B5931114F /* Tool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tool.swift; sourceTree = "<group>"; };
+		1C23CBC0E24A72AFF6E4B9C7 /* Engine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine.swift; sourceTree = "<group>"; };
+		26DA5819BB29F8FBA18098C6 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
+		2AA29F5A98C09D3B419AFEC7 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
+		2E4F7A2534788FB9E0969D6D /* QuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewModel.swift; sourceTree = "<group>"; };
+		3433D975BEA35489B4294FAC /* ModelSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelSelectionView.swift; sourceTree = "<group>"; };
+		3B310162F27B1A324B7B6FBA /* QuizCreationSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizCreationSheet.swift; sourceTree = "<group>"; };
+		3FFD292CAD62D806558685B1 /* GemmaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GemmaModel.swift; sourceTree = "<group>"; };
+		4365B6B48D14125C7DD76505 /* QuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizView.swift; sourceTree = "<group>"; };
+		44705026332DA054284206D2 /* LLMInferenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMInferenceService.swift; sourceTree = "<group>"; };
+		460AA6F9D8A359A4CE0BFAC7 /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
+		4AEB4FC3736E443298416AD2 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
+		76F71E496B14FA6979D10A68 /* ExperimentalFlags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExperimentalFlags.swift; sourceTree = "<group>"; };
+		88ECA53D10F035C96345C242 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		8BD5FA2E5179492AF43A32CA /* Capabilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Capabilities.swift; sourceTree = "<group>"; };
+		93A5E1F75E3F48B2A8A38D78 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9C877B4F4C4DADFAF75D6207 /* Benchmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Benchmark.swift; sourceTree = "<group>"; };
+		9D789FF3FDDD023CDC2D33B7 /* QuizQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizQuestion.swift; sourceTree = "<group>"; };
+		9FCFE9093E91199A7FE8B2A6 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		A0289FC793958CA2D294729F /* Gemma4Chat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gemma4Chat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A6E31C528149239E252FECB2 /* CLiteRTLM.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CLiteRTLM.xcframework; path = Frameworks/CLiteRTLM.xcframework; sourceTree = "<group>"; };
+		BB2C6D55CFE1B01EF045C191 /* InferenceStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InferenceStats.swift; sourceTree = "<group>"; };
+		C52EBA4790ED2EABE41DD0BA /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
+		C627A89312DCF1A421821662 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
+		CA96A76C4D0CF179A828D577 /* LiteRTLMError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiteRTLMError.swift; sourceTree = "<group>"; };
+		D22FA2905D5B44CC9BB17458 /* Gemma4ChatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gemma4ChatApp.swift; sourceTree = "<group>"; };
+		D7FCF5AE48F4594D69F4F4FA /* ToolManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolManager.swift; sourceTree = "<group>"; };
+		E44BE0031DC328508E3772D4 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		FE0216262979B7A25C90D186 /* ModelDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDownloader.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DFD66DDCC779C35626923AE1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B2C57179CE14F1F56A1D8DC4 /* CLiteRTLM.xcframework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2AEBBB52C43D831D4D9648D6 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				44705026332DA054284206D2 /* LLMInferenceService.swift */,
+				FE0216262979B7A25C90D186 /* ModelDownloader.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		373D3B6FC32267358E8976A9 = {
+			isa = PBXGroup;
+			children = (
+				ED2C9E8241C940640AC11277 /* Gemma4Chat */,
+				51DEBEDC0C9DDC3E7CB8D75B /* Frameworks */,
+				3C65D53F5D301BEBB0CE2083 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3C65D53F5D301BEBB0CE2083 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A0289FC793958CA2D294729F /* Gemma4Chat.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		51DEBEDC0C9DDC3E7CB8D75B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A6E31C528149239E252FECB2 /* CLiteRTLM.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		68C168C9CEE4A01B9EFDEF72 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				26DA5819BB29F8FBA18098C6 /* ChatViewModel.swift */,
+				2E4F7A2534788FB9E0969D6D /* QuizViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		6F23B119C10A80E6C275D79B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0EB28EDF8935C24CCD363175 /* ChatView.swift */,
+				2AA29F5A98C09D3B419AFEC7 /* MessageBubble.swift */,
+				3433D975BEA35489B4294FAC /* ModelSelectionView.swift */,
+				3B310162F27B1A324B7B6FBA /* QuizCreationSheet.swift */,
+				4365B6B48D14125C7DD76505 /* QuizView.swift */,
+				E44BE0031DC328508E3772D4 /* RootView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8F0B6C2BD20845177707C1BB /* LiteRTLM */ = {
+			isa = PBXGroup;
+			children = (
+				9C877B4F4C4DADFAF75D6207 /* Benchmark.swift */,
+				8BD5FA2E5179492AF43A32CA /* Capabilities.swift */,
+				9FCFE9093E91199A7FE8B2A6 /* Config.swift */,
+				4AEB4FC3736E443298416AD2 /* Conversation.swift */,
+				1C23CBC0E24A72AFF6E4B9C7 /* Engine.swift */,
+				76F71E496B14FA6979D10A68 /* ExperimentalFlags.swift */,
+				CA96A76C4D0CF179A828D577 /* LiteRTLMError.swift */,
+				88ECA53D10F035C96345C242 /* Message.swift */,
+				1017BDAEF8AEBB4B5931114F /* Tool.swift */,
+				D7FCF5AE48F4594D69F4F4FA /* ToolManager.swift */,
+			);
+			path = LiteRTLM;
+			sourceTree = "<group>";
+		};
+		9EF2CDFB9D4BCEB720AC837A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C627A89312DCF1A421821662 /* ChatMessage.swift */,
+				3FFD292CAD62D806558685B1 /* GemmaModel.swift */,
+				BB2C6D55CFE1B01EF045C191 /* InferenceStats.swift */,
+				9D789FF3FDDD023CDC2D33B7 /* QuizQuestion.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A1B22D685396AD84DA312A3F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				460AA6F9D8A359A4CE0BFAC7 /* Color+Hex.swift */,
+				C52EBA4790ED2EABE41DD0BA /* View+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		ED2C9E8241C940640AC11277 /* Gemma4Chat */ = {
+			isa = PBXGroup;
+			children = (
+				93A5E1F75E3F48B2A8A38D78 /* Assets.xcassets */,
+				D22FA2905D5B44CC9BB17458 /* Gemma4ChatApp.swift */,
+				A1B22D685396AD84DA312A3F /* Extensions */,
+				8F0B6C2BD20845177707C1BB /* LiteRTLM */,
+				9EF2CDFB9D4BCEB720AC837A /* Models */,
+				2AEBBB52C43D831D4D9648D6 /* Services */,
+				68C168C9CEE4A01B9EFDEF72 /* ViewModels */,
+				6F23B119C10A80E6C275D79B /* Views */,
+			);
+			path = Gemma4Chat;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6A965781CBD56F9C9E65F6A8 /* Gemma4Chat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6ECD046DDCA7542C9CBED5D3 /* Build configuration list for PBXNativeTarget "Gemma4Chat" */;
+			buildPhases = (
+				F677972DD7FBD570B7A98762 /* Sources */,
+				B3348FC51B6CF26BD7966994 /* Resources */,
+				DFD66DDCC779C35626923AE1 /* Frameworks */,
+				1C7D3CBCFD61C6EC05E7E1E5 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Gemma4Chat;
+			packageProductDependencies = (
+			);
+			productName = Gemma4Chat;
+			productReference = A0289FC793958CA2D294729F /* Gemma4Chat.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0CC38515D6B635052815C56E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+			};
+			buildConfigurationList = 851C7CF4C6C474EAF53E865F /* Build configuration list for PBXProject "Gemma4Chat" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 373D3B6FC32267358E8976A9;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 3C65D53F5D301BEBB0CE2083 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6A965781CBD56F9C9E65F6A8 /* Gemma4Chat */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B3348FC51B6CF26BD7966994 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				548A96E9FE48115A2F0C8FC8 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F677972DD7FBD570B7A98762 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				12BD65713AEE957321F6D066 /* Benchmark.swift in Sources */,
+				5D98BE1F90D12F24B4C7B225 /* Capabilities.swift in Sources */,
+				35DD102E9015D40AB117A2F4 /* ChatMessage.swift in Sources */,
+				B6E10703248F9FAA5174C9ED /* ChatView.swift in Sources */,
+				B0F1AE7BDA7E63BBEBBE793D /* ChatViewModel.swift in Sources */,
+				B9D2059DA5ED6C33EAD4758B /* Color+Hex.swift in Sources */,
+				727359A83CFCCE93A8B38CFF /* Config.swift in Sources */,
+				3477E4B5F96F2C5A01810909 /* Conversation.swift in Sources */,
+				0CBFFFD267C0CE615B7EC1D6 /* Engine.swift in Sources */,
+				E67030A5C8FD0826799E15C9 /* ExperimentalFlags.swift in Sources */,
+				C0446E3B4C8CFB200BFA1488 /* Gemma4ChatApp.swift in Sources */,
+				D824E891AC9FC46B9FBBBD9B /* GemmaModel.swift in Sources */,
+				D8829F813B7774F3E8943E83 /* InferenceStats.swift in Sources */,
+				8FB06D77773F7321360505A1 /* LLMInferenceService.swift in Sources */,
+				5EAD3B93348E9619E571F88A /* LiteRTLMError.swift in Sources */,
+				504FC9DBB11203E10EB196D8 /* Message.swift in Sources */,
+				B8F7DA8795DAB205A166645F /* MessageBubble.swift in Sources */,
+				CF66467DDFEBA78EA8CD97EF /* ModelDownloader.swift in Sources */,
+				2AF6AD3276C176C5DC9297D7 /* ModelSelectionView.swift in Sources */,
+				D662E2A7F31B39880434A90B /* QuizCreationSheet.swift in Sources */,
+				8BE9732812100AD309804373 /* QuizQuestion.swift in Sources */,
+				FFCEB21712FD7854DE828744 /* QuizView.swift in Sources */,
+				D48B6B1BA4A734006D121CA7 /* QuizViewModel.swift in Sources */,
+				FE3CDB19925EA83890BC9F5F /* RootView.swift in Sources */,
+				930FAAC407AA7823664A98B1 /* Tool.swift in Sources */,
+				FCE81FAAABCE6D5025823AFE /* ToolManager.swift in Sources */,
+				46DF132DFAF31DB4D143A222 /* View+Extensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		26969DF8D1536F938CE4C88D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		3A6F160B9D6B2B6A4DE9F738 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = EQHXZ8M8AV;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"Frameworks\"",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Gemma4Chat;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-Xlinker",
+					"-all_load",
+					"$(inherited)",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.Gemma4Chat;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Google Development";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DAE044DC39DC54D2498A5EF0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = EQHXZ8M8AV;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"Frameworks\"",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Gemma4Chat;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-Xlinker",
+					"-all_load",
+					"$(inherited)",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.Gemma4Chat;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Google Development";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		E9D410D96892790158ED6E4B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6ECD046DDCA7542C9CBED5D3 /* Build configuration list for PBXNativeTarget "Gemma4Chat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A6F160B9D6B2B6A4DE9F738 /* Debug */,
+				DAE044DC39DC54D2498A5EF0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		851C7CF4C6C474EAF53E865F /* Build configuration list for PBXProject "Gemma4Chat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E9D410D96892790158ED6E4B /* Debug */,
+				26969DF8D1536F938CE4C88D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0CC38515D6B635052815C56E /* Project object */;
+}

@@ -1,0 +1,10 @@
+# OS X
+.DS_Store
+
+# Xcode
+build/
+DerivedData/
+xcuserdata/
+*.xcuserdata/
+*.xcuserstate
+*.xsyncdestination
