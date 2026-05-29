@@ -39,6 +39,8 @@ final class GeminiLiveSession {
   var onStatusChange: (@MainActor (LiveSessionStatus) -> Void)?
   /// Fires when a model audio turn starts — the first audio chunk of a new turn.
   var onAudioTurnStarted: (@MainActor () -> Void)?
+  /// Fires when the server signals the model turn was interrupted (barge-in).
+  var onInterrupted: (@MainActor () -> Void)?
 
   nonisolated(unsafe) private var webSocketTask: URLSessionWebSocketTask?
   private var session: URLSession?
@@ -342,6 +344,11 @@ final class GeminiLiveSession {
       if content["turnComplete"] as? Bool == true {
         audioTurnStartedForCurrentTurn = false
         onTurnComplete?()
+      }
+      // Barge-in: the server signals the model turn was interrupted by user speech
+      if content["interrupted"] as? Bool == true {
+        audioTurnStartedForCurrentTurn = false
+        onInterrupted?()
       }
     }
   }

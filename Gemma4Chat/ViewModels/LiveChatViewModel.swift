@@ -146,19 +146,23 @@ final class LiveChatViewModel {
 
     session.onAudioTurnStarted = { [weak self] in
       self?.isSpeaking = true
-      // Pause mic sending while model speaks — prevents background noise
-      // and speaker→mic feedback from triggering false barge-ins.
-      self?.recorder.isSendingPaused = true
     }
 
     session.onTurnComplete = { [weak self] in
       guard let self else { return }
-      // Resume mic sending now that the model has finished speaking
-      self.recorder.isSendingPaused = false
-      // isSpeaking will be set to false by the player's onPlaybackFinished
+      self.isSpeaking = false
       
       // Generate fresh suggestions based on the new state of the conversation
       self.generateSuggestedQuestions()
+    }
+
+    // Barge-in: the server detected user speech and interrupted the model.
+    // Flush playback immediately so the user can speak.
+    session.onInterrupted = { [weak self] in
+      guard let self else { return }
+      self.player.flush()
+      self.isSpeaking = false
+      self.addTranscript(.system, "⚡ Interrupted")
     }
 
     session.onError = { [weak self] error in
