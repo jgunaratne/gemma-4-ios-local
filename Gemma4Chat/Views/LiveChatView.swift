@@ -32,6 +32,10 @@ struct LiveChatView: View {
         transcriptArea
           .frame(maxHeight: .infinity)
 
+        // Suggested follow-up questions
+        suggestionsSection
+          .padding(.bottom, 8)
+
         // Optional text input
         if showTextInput {
           textInputBar
@@ -356,6 +360,70 @@ struct LiveChatView: View {
     }
     .padding(.vertical, 14)
     .background(.ultraThinMaterial)
+  }
+
+
+  // MARK: - Suggestions Section
+
+  @ViewBuilder
+  private var suggestionsSection: some View {
+    if viewModel.sessionStatus == .connected && !viewModel.suggestedQuestions.isEmpty {
+      VStack(alignment: .leading, spacing: 6) {
+        HStack(spacing: 4) {
+          Image(systemName: "sparkles")
+            .font(.system(size: 10, weight: .bold))
+            .foregroundStyle(Color(hex: "4285F4"))
+          Text("SUGGESTED QUESTIONS")
+            .font(.system(size: 10, weight: .bold))
+            .foregroundStyle(.secondary)
+            .tracking(0.5)
+          
+          if viewModel.isGeneratingQuestions {
+            Spacer()
+            ProgressView()
+              .tint(.secondary)
+              .scaleEffect(0.7)
+          }
+        }
+        .padding(.horizontal, 16)
+
+        VStack(alignment: .leading, spacing: 8) {
+          ForEach(viewModel.suggestedQuestions, id: \.self) { question in
+            Button {
+              viewModel.sendText(question)
+            } label: {
+              HStack(spacing: 8) {
+                Image(systemName: "bubble.left.and.bubble.right.fill")
+                  .font(.system(size: 11))
+                  .foregroundStyle(Color(hex: "4285F4"))
+                  .frame(width: 16)
+                Text(question)
+                  .font(.system(size: 13, weight: .medium))
+                  .foregroundStyle(Color(hex: "4285F4"))
+                  .multilineTextAlignment(.leading)
+                  .lineLimit(nil)
+                Spacer()
+                Image(systemName: "arrow.up.right")
+                  .font(.system(size: 10))
+                  .foregroundStyle(Color(hex: "4285F4"))
+              }
+              .padding(.horizontal, 14)
+              .padding(.vertical, 10)
+              .background(
+                RoundedRectangle(cornerRadius: 12)
+                  .fill(Color(hex: "4285F4").opacity(0.06))
+                  .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                      .stroke(Color(hex: "4285F4").opacity(0.12), lineWidth: 1)
+                  )
+              )
+            }
+          }
+        }
+        .padding(.horizontal, 16)
+      }
+      .transition(.opacity.combined(with: .move(edge: .bottom)))
+    }
   }
 
   // MARK: - Helpers

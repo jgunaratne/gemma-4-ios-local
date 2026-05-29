@@ -20,6 +20,10 @@ final class LiveChatViewModel {
   /// Conversation transcript shown in the UI.
   var transcript: [LiveTranscriptEntry] = []
 
+  /// Dynamically generated suggested questions to ask Gemini Live.
+  var suggestedQuestions: [String] = []
+  var isGeneratingQuestions = false
+
   var sessionStatus: LiveSessionStatus { session.status }
 
   // MARK: - Services
@@ -29,11 +33,13 @@ final class LiveChatViewModel {
   let player = AudioPlayer()
 
   private let apiKey: String
+  private let context: String
 
   // MARK: - Init
 
   init(apiKey: String, context: String = "", character: String = "", voice: String = "") {
     self.apiKey = apiKey
+    self.context = context
 
     // Match the recommended prebuilt voice name to our GeminiVoice enum
     if let matchedVoice = GeminiVoice.allCases.first(where: { $0.rawValue.lowercased() == voice.lowercased() }) {
@@ -146,9 +152,13 @@ final class LiveChatViewModel {
     }
 
     session.onTurnComplete = { [weak self] in
+      guard let self else { return }
       // Resume mic sending now that the model has finished speaking
-      self?.recorder.isSendingPaused = false
+      self.recorder.isSendingPaused = false
       // isSpeaking will be set to false by the player's onPlaybackFinished
+      
+      // Generate fresh suggestions based on the new state of the conversation
+      self.generateSuggestedQuestions()
     }
 
     session.onError = { [weak self] error in
@@ -177,6 +187,9 @@ final class LiveChatViewModel {
         } catch {
           addTranscript(.error, "Audio player error: \(error.localizedDescription)")
         }
+        
+        // Generate initial suggestions immediately on connect
+        self.generateSuggestedQuestions()
       case .reconnecting:
         addTranscript(.system, "Connection lost — reconnecting…")
         player.flush()
@@ -211,6 +224,75 @@ final class LiveChatViewModel {
     // Keep manageable
     if transcript.count > 200 {
       transcript.removeFirst(transcript.count - 150)
+    }
+  }
+
+  // MARK: - Suggested Questions Generator
+
+  func generateSuggestedQuestions() {
+    let key = apiKey.trimmingCharacters(in: .whitespacesAndNewlines)
+    let contextText = context.trimmingCharacters(in: .whitespacesAndNewlines)
+    
+    guard !key.isEmpty, !contextText.isEmpty else { return }
+    
+    isGeneratingQuestions = true
+    
+    // Build current chat transcript history
+    let history = transcript.map { "\($0.role.rawValue.uppercased()): \($0.text)" }.joined(separator: "\n")
+    
+    let prompt = """
+    You are an expert interview coach and content researcher.
+    Your job is to analyze the provided podcast/article context and the current conversation transcript history between the user and Gemini Live, and generate exactly 5 high-quality, specific, engaging follow-up questions that the user could ask Gemini Live next.
+
+    Goal:
+    - Provide questions that dive deeper into the most interesting details of the podcast/context.
+    - The questions must be relevant to the current stage of the conversation.
+    - Keep each question short, punchy, and natural to say out loud (1 sentence max).
+
+    Podcast/Article Context:
+    \"\"\"
+    \(contextText)
+    \"\"\"
+
+    Current Conversation History:
+    \"\"\"
+    \(history.isEmpty ? "[No turns yet. The conversation is just starting.]" : history)
+    \"\"\"
+
+    Output exactly 5 bullet-point questions. Start each question with a dash (-) or bullet point. Do not include introductory or concluding remarks, just output the 3 bullet points.
+    """
+    
+    Task {
+      do {
+        let response = try await GeminiAPIService.generateContent(apiKey: key, prompt: prompt)
+        await MainActor.run {
+          // Parse bullet points
+          let lines = response.components(separatedBy: .newlines)
+          let parsed = lines
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { $0.hasPrefix("-") || $0.hasPrefix("•") || $0.hasPrefix("*") }
+            .map { String($0.dropFirst().trimmingCharacters(in: .whitespacesAndNewlines)) }
+            .filter { !$0.isEmpty }
+            .prefix(5)
+          
+          if parsed.count >= 2 {
+            self.suggestedQuestions = Array(parsed)
+          } else {
+            // Fallback to line-splitting if prefix doesn't exist
+            let cleanLines = lines
+              .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+              .filter { !$0.isEmpty }
+              .prefix(5)
+            self.suggestedQuestions = Array(cleanLines)
+          }
+          self.isGeneratingQuestions = false
+        }
+      } catch {
+        print("❌ [LiveChatVM] Failed to generate suggested questions: \(error.localizedDescription)")
+        await MainActor.run {
+          self.isGeneratingQuestions = false
+        }
+      }
     }
   }
 }
