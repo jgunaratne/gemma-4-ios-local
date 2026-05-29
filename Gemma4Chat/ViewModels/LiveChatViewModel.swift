@@ -32,8 +32,13 @@ final class LiveChatViewModel {
 
   // MARK: - Init
 
-  init(apiKey: String, context: String = "", character: String = "") {
+  init(apiKey: String, context: String = "", character: String = "", voice: String = "") {
     self.apiKey = apiKey
+
+    // Match the recommended prebuilt voice name to our GeminiVoice enum
+    if let matchedVoice = GeminiVoice.allCases.first(where: { $0.rawValue.lowercased() == voice.lowercased() }) {
+      session.voice = matchedVoice
+    }
 
     let trimmedChar = character.trimmingCharacters(in: .whitespacesAndNewlines)
     if !trimmedChar.isEmpty {

@@ -54,7 +54,7 @@ enum ModelOption: Hashable, Identifiable {
 struct ModelSelectionView: View {
   @Bindable var downloader: ModelDownloader
   let isInitializing: Bool
-  let onStartChat: (ModelOption, String, String) -> Void
+  let onStartChat: (ModelOption, String, String, String) -> Void
   let onCreateQuiz: (ModelOption) -> Void
 
   @AppStorage("geminiAPIKey") private var geminiAPIKey: String = ""
@@ -63,6 +63,7 @@ struct ModelSelectionView: View {
   @State private var selectedOption: ModelOption = .local(.gemma4_e4b)
   @AppStorage("contextText") private var contextText: String = ""
   @AppStorage("characterText") private var characterText: String = ""
+  @AppStorage("recommendedVoice") private var recommendedVoice: String = "Puck"
   @State private var isGeneratingCharacter = false
 
   /// All model options: on-device models + Gemini cloud.
@@ -471,7 +472,7 @@ struct ModelSelectionView: View {
         if selectedOption.isCloud, editingAPIKey != geminiAPIKey {
           geminiAPIKey = editingAPIKey
         }
-        onStartChat(selectedOption, contextText, characterText)
+        onStartChat(selectedOption, contextText, characterText, recommendedVoice)
       } label: {
         HStack {
           Image(systemName: selectedOption.isLive ? "waveform" : "message.fill")
@@ -666,6 +667,27 @@ struct ModelSelectionView: View {
           alignment: .topLeading
         )
 
+      HStack {
+        Image(systemName: "waveform.badge.mic")
+          .font(.system(size: 12))
+          .foregroundStyle(Color(hex: "9B72CB"))
+        Text("Matched Voice:")
+          .font(.system(size: 12, weight: .semibold))
+          .foregroundStyle(.secondary)
+        
+        Spacer()
+        
+        Picker("Voice", selection: $recommendedVoice) {
+          ForEach(GeminiVoice.allCases, id: \.self) { voice in
+            Text(voice.displayName).tag(voice.rawValue)
+          }
+        }
+        .pickerStyle(.menu)
+        .font(.system(size: 13))
+        .tint(Color(hex: "9B72CB"))
+      }
+      .padding(.top, 4)
+
       // Generate Button
       Button {
         generateCharacterNarrator()
@@ -725,22 +747,62 @@ struct ModelSelectionView: View {
     Task:
     1. Analyze the speakers in the text below. Identify their accent, speech style, speed, specific vocabulary/language choices, and their overall personality traits.
     2. Design a character persona who mirrors this exact same style of accent, speech, language, and personality of the speakers in the podcast/context.
-    3. Write a detailed, concise 1-2 paragraph character description. Include details like their profession, age, gender/accent, emotional tone, speech pacing, vocabulary style (e.g., uses formal wording, uses friendly contractions, uses specific jargon), and specific guidelines for how they should speak (e.g., "Keep responses short, conversational, match their regional accent, and use the same informal vocabulary").
+    3. Select the single best-fitting voice for this persona from the following 8 prebuilt Gemini voices based on gender, energy, and tone requirements:
+       - Puck: Male, clear, friendly, standard professional (neutral)
+       - Charon: Male, deep, slow, stoic, resonant (mature, authoritative)
+       - Kore: Female, bright, energetic, youthful, friendly
+       - Fenrir: Male, gritty, raw, high-energy, unique (cyborg/rebel)
+       - Aoede: Female, warm, clear, professional, natural
+       - Leda: Female, warm, friendly, mature, motherly
+       - Orus: Male, warm, confident, friendly
+       - Vale: Male, calm, warm, conversational
+    4. Write a detailed, concise 1-2 paragraph character description. Include details like their profession, age, gender/accent, emotional tone, speech pacing, vocabulary style (e.g., uses formal wording, friendly contractions, jargon), and specific guidelines for how they should speak.
 
     Content:
     \"\"\"
     \(context)
     \"\"\"
 
-    Output only the resulting 1-2 paragraph character description. Do not include headers, bullet points, or introductory text. Keep it extremely focused on the persona and speech style guidelines.
+    Format the output strictly as shown below. Use the exact labels:
+    VOICE: [Name of selected prebuilt voice, exactly matching one of the 8 options listed above]
+    PROFILE:
+    [The 1-2 paragraph character description]
     """
     
     Task {
       do {
         let response = try await GeminiAPIService.generateContent(apiKey: key, prompt: prompt)
         await MainActor.run {
-          self.characterText = response.trimmingCharacters(in: .whitespacesAndNewlines)
           self.isGeneratingCharacter = false
+          
+          let lines = response.components(separatedBy: .newlines)
+          
+          // Extract Voice
+          if let voiceLine = lines.first(where: { $0.uppercased().hasPrefix("VOICE:") }) {
+            let voiceName = voiceLine.replacingOccurrences(of: "VOICE:", with: "", options: .caseInsensitive)
+              .trimmingCharacters(in: .whitespacesAndNewlines)
+            
+            // Match against existing GeminiVoice raw values (case-insensitive match)
+            if let matched = GeminiVoice.allCases.first(where: { $0.rawValue.lowercased() == voiceName.lowercased() }) {
+              self.recommendedVoice = matched.rawValue
+              print("🎯 [ModelSelection] Matched Voice: \(matched.rawValue)")
+            }
+          }
+          
+          // Extract Profile
+          if let profileStartIndex = lines.firstIndex(where: { $0.uppercased().hasPrefix("PROFILE:") }) {
+            let profileLines = lines[profileStartIndex + 1..<lines.count]
+            let cleanProfile = profileLines.joined(separator: "\n").trimmingCharacters(in: .whitespacesAndNewlines)
+            if !cleanProfile.isEmpty {
+              self.characterText = cleanProfile
+            } else {
+              // Fallback to raw response if parsed profile is empty
+              self.characterText = response.trimmingCharacters(in: .whitespacesAndNewlines)
+            }
+          } else {
+            // Fallback if no tags are present
+            self.characterText = response.trimmingCharacters(in: .whitespacesAndNewlines)
+          }
         }
       } catch {
         print("❌ [ModelSelection] Failed to generate character narrator: \(error.localizedDescription)")
